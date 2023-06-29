@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "minecraft:leaves"
+    },
+    "G": {
+      "tag": "forge:dusts/glowstone"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
+    },
+    "V": {
+      "tag": "forge:storage_blocks/lapis"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "RVR",
+    "GCG"
+  ],
+  "result": {
+    "item": "particlemimicry:particle_emitter"
+  }
+}

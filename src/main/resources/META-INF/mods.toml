@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[43,)"
+issueTrackerURL="https://github.com/Mrbysco/ParticleMimicry"
+license="MIT"
+[[mods]]
+modId="particlemimicry"
+version="${file.jarVersion}"
+displayName="Particle Mimicry"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/particle-mimicry"
+authors="Mrbysco, ShyNieke"
+credits="ShyNieke for the idea"
+description='''
+Adds a block that can generate particles
+'''
+[[dependencies.particlemimicry]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.19.2,1.20)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.particlemimicry]]
+modId="forge"
+mandatory=true
+versionRange="[43.2.0,)"
+ordering="NONE"
+side="BOTH"

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "mimicing=false,powered=false": {
+      "model": "particlemimicry:block/particle_emitter"
+    },
+    "mimicing=false,powered=true": {
+      "model": "particlemimicry:block/particle_emitter"
+    },
+    "mimicing=true,powered=false": {
+      "model": "particlemimicry:block/particle_emitter"
+    },
+    "mimicing=true,powered=true": {
+      "model": "particlemimicry:block/particle_emitter"
+    }
+  }
+}

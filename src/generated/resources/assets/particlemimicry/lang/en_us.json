@@ -1,0 +1,10 @@
+{
+  "block.particlemimicry.particle_emitter": "Particle Emitter",
+  "particlemimicry.count": "Count",
+  "particlemimicry.delta": "Delta",
+  "particlemimicry.offset": "Delta",
+  "particlemimicry.particle": "Particle Type",
+  "particlemimicry.setParticle": "Set Particle Type",
+  "particlemimicry.specialParameters": "Special Parameters",
+  "particlemimicry.speed": "Speed"
+}
