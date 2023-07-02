@@ -1,1 +1,1 @@
-* Initial update to 1.20
+* Fix Particle Emitter staying powered forever once powered

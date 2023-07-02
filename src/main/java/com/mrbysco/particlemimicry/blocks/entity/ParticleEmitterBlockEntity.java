@@ -28,12 +28,8 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		setData("", "", "", "", "", "");
 	}
 
-	public static void clientTick(Level level, BlockPos pos, BlockState state, ParticleEmitterBlockEntity blockEntity) {
-
-	}
-
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ParticleEmitterBlockEntity blockEntity) {
-		if (level.getGameTime() % 20 == 0) {
+		if (level.getGameTime() % 20 == 0){
 			MinecraftServer minecraftserver = level.getServer();
 			blockEntity.constructCommand();
 

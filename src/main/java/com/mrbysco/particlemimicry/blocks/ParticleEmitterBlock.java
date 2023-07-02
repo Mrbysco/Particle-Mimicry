@@ -3,6 +3,8 @@ package com.mrbysco.particlemimicry.blocks;
 import com.mrbysco.particlemimicry.blocks.entity.ParticleEmitterBlockEntity;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -51,11 +53,10 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-		if (level.isClientSide) {
-			return createTickerHelper(blockEntityType, MimicryRegistry.PARTICLE_EMITTER_ENTITY.get(), ParticleEmitterBlockEntity::clientTick);
-		} else {
+		if (!level.isClientSide && state.getValue(POWERED)) {
 			return createTickerHelper(blockEntityType, MimicryRegistry.PARTICLE_EMITTER_ENTITY.get(), ParticleEmitterBlockEntity::serverTick);
 		}
+		return null;
 	}
 
 	public RenderShape getRenderShape(BlockState state) {
@@ -76,6 +77,12 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 				}
 			}
 
+		}
+	}
+
+	public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource randomSource) {
+		if (state.getValue(POWERED) && !serverLevel.hasNeighborSignal(pos)) {
+			serverLevel.setBlock(pos, state.cycle(POWERED), 2);
 		}
 	}
 
