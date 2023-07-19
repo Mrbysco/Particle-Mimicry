@@ -58,7 +58,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.particleTypeEdit.setResponder(this::onEdited);
 		this.addWidget(this.particleTypeEdit);
 		this.setInitialFocus(this.particleTypeEdit);
-		this.particleTypeEdit.setFocus(true);
+		this.particleTypeEdit.setFocused(true);
 		this.particleSuggestions = new ParticleSuggestions(this.minecraft, this, this.particleTypeEdit, this.font);
 		this.particleSuggestions.setAllowSuggestions(true);
 		this.particleSuggestions.updateCommandInfo();
@@ -218,35 +218,35 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	public boolean mouseClicked(double mouseX, double mouseY, int delta) {
-		// The ugly setFocus calls are to stop multiple edit boxes from being focused at once
+		// The ugly setFocused calls are to stop multiple edit boxes from being focused at once
 		if (particleTypeEdit.isFocused() && this.particleSuggestions.mouseClicked(mouseX, mouseY, delta)) {
-			offsetEdit.setFocus(false);
-			deltaEdit.setFocus(false);
-			specialParametersEdit.setFocus(false);
-			speedEdit.setFocus(false);
-			countEdit.setFocus(false);
+			offsetEdit.setFocused(false);
+			deltaEdit.setFocused(false);
+			specialParametersEdit.setFocused(false);
+			speedEdit.setFocused(false);
+			countEdit.setFocused(false);
 			return true;
 		} else if (offsetEdit.isFocused() && this.offsetSuggestions.mouseClicked(mouseX, mouseY, delta)) {
-			particleTypeEdit.setFocus(false);
-			deltaEdit.setFocus(false);
-			specialParametersEdit.setFocus(false);
-			speedEdit.setFocus(false);
-			countEdit.setFocus(false);
+			particleTypeEdit.setFocused(false);
+			deltaEdit.setFocused(false);
+			specialParametersEdit.setFocused(false);
+			speedEdit.setFocused(false);
+			countEdit.setFocused(false);
 			return true;
 		} else if (deltaEdit.isFocused() && this.deltaSuggestions.mouseClicked(mouseX, mouseY, delta)) {
-			particleTypeEdit.setFocus(false);
-			offsetEdit.setFocus(false);
-			specialParametersEdit.setFocus(false);
-			speedEdit.setFocus(false);
-			countEdit.setFocus(false);
+			particleTypeEdit.setFocused(false);
+			offsetEdit.setFocused(false);
+			specialParametersEdit.setFocused(false);
+			speedEdit.setFocused(false);
+			countEdit.setFocused(false);
 			return true;
 		} else {
-			particleTypeEdit.setFocus(false);
-			offsetEdit.setFocus(false);
-			specialParametersEdit.setFocus(false);
-			deltaEdit.setFocus(false);
-			speedEdit.setFocus(false);
-			countEdit.setFocus(false);
+			particleTypeEdit.setFocused(false);
+			offsetEdit.setFocused(false);
+			specialParametersEdit.setFocused(false);
+			deltaEdit.setFocused(false);
+			speedEdit.setFocused(false);
+			countEdit.setFocused(false);
 			return super.mouseClicked(mouseX, mouseY, delta);
 		}
 	}

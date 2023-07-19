@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "particlemimicry:particle_emitter"
-  }
+  },
+  "show_notification": true
 }

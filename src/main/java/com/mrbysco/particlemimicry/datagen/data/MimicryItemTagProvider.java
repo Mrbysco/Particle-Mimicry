@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 public class MimicryItemTagProvider extends ItemTagsProvider {
 	public MimicryItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
 								  TagsProvider<Block> blockTagProvider, ExistingFileHelper existingFileHelper) {
-		super(output, lookupProvider, blockTagProvider, ParticleMimicry.MOD_ID, existingFileHelper);
+		super(output, lookupProvider, blockTagProvider.contentsGetter(), ParticleMimicry.MOD_ID, existingFileHelper);
 	}
 
 	@Override
