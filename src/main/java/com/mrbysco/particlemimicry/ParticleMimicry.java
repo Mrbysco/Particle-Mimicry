@@ -4,8 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.mrbysco.particlemimicry.networking.PacketHandler;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.common.CreativeModeTabRegistry;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -32,8 +31,8 @@ public class ParticleMimicry {
 		PacketHandler.init();
 	}
 
-	private void buildContents(final CreativeModeTabEvent.BuildContents event) {
-		if(event.getTab() == CreativeModeTabs.REDSTONE_BLOCKS) {
+	private void buildContents(final BuildCreativeModeTabContentsEvent event) {
+		if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
 			event.accept(MimicryRegistry.PARTICLE_EMITTER.get());
 		}
 	}

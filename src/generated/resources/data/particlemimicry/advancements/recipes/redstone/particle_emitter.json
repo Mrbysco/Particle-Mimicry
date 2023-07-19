@@ -61,5 +61,6 @@
     "recipes": [
       "particlemimicry:particle_emitter"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

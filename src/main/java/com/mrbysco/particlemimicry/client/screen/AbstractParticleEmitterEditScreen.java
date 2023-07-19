@@ -6,6 +6,7 @@ import com.mrbysco.particlemimicry.client.screen.components.ParticleSuggestions;
 import com.mrbysco.particlemimicry.client.screen.widget.NumberEditBox;
 import net.minecraft.client.GameNarrator;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -251,29 +252,30 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		}
 	}
 
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		this.renderBackground(poseStack);
-		drawCenteredString(poseStack, this.font, SET_PARTICLE_LABEL, this.width / 2, 20, 16777215);
-		drawString(poseStack, this.font, COMMAND_LABEL, this.width / 2 - 150, 40, 10526880);
-		this.particleTypeEdit.render(poseStack, mouseX, mouseY, partialTick);
-		this.offsetEdit.render(poseStack, mouseX, mouseY, partialTick);
-		this.specialParametersEdit.render(poseStack, mouseX, mouseY, partialTick);
-		this.deltaEdit.render(poseStack, mouseX, mouseY, partialTick);
-		this.speedEdit.render(poseStack, mouseX, mouseY, partialTick);
-		this.countEdit.render(poseStack, mouseX, mouseY, partialTick);
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		this.renderBackground(guiGraphics);
+		guiGraphics.drawCenteredString(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, 16777215);
+		guiGraphics.drawString(this.font, COMMAND_LABEL, this.width / 2 - 150, 40, 10526880, false);
+		this.particleTypeEdit.render(guiGraphics, mouseX, mouseY, partialTick);
+		this.offsetEdit.render(guiGraphics, mouseX, mouseY, partialTick);
+		this.specialParametersEdit.render(guiGraphics, mouseX, mouseY, partialTick);
+		this.deltaEdit.render(guiGraphics, mouseX, mouseY, partialTick);
+		this.speedEdit.render(guiGraphics, mouseX, mouseY, partialTick);
+		this.countEdit.render(guiGraphics, mouseX, mouseY, partialTick);
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		if (particleTypeEdit.isFocused())
-			this.particleSuggestions.render(poseStack, mouseX, mouseY);
+			this.particleSuggestions.render(guiGraphics, mouseX, mouseY);
 
+		PoseStack poseStack = guiGraphics.pose();
 		if (offsetEdit.isFocused()) {
 			poseStack.translate(0, 40, 0);
-			this.offsetSuggestions.render(poseStack, mouseX, mouseY);
+			this.offsetSuggestions.render(guiGraphics, mouseX, mouseY);
 		}
 
 		if (deltaEdit.isFocused()) {
 			poseStack.translate(0, 80, 0);
-			this.deltaSuggestions.render(poseStack, mouseX, mouseY);
+			this.deltaSuggestions.render(guiGraphics, mouseX, mouseY);
 		}
 	}
 }
