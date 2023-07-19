@@ -40,13 +40,13 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	protected void init() {
-		this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
-		this.doneButton = this.addRenderableWidget(new Button(this.width / 2 - 4 - 150, this.height / 4 + 120 + 12, 150, 20, CommonComponents.GUI_DONE, (p_97691_) -> {
+		this.addRenderableWidget(this.doneButton = Button.builder(CommonComponents.GUI_DONE, (button) -> {
 			this.onDone();
-		}));
-		this.cancelButton = this.addRenderableWidget(new Button(this.width / 2 + 4, this.height / 4 + 120 + 12, 150, 20, CommonComponents.GUI_CANCEL, (p_97687_) -> {
+		}).bounds(this.width / 2 - 4 - 150, this.height / 4 + 120 + 12, 150, 20).build());
+
+		this.addRenderableWidget(this.cancelButton = Button.builder(CommonComponents.GUI_CANCEL, (button) -> {
 			this.onClose();
-		}));
+		}).bounds(this.width / 2 + 4, this.height / 4 + 120 + 12, 150, 20).build());
 
 		this.particleTypeEdit = new EditBox(this.font, this.width / 2 - 150, 50, 300, 20,
 				Component.translatable("particlemimicry.particle")) {
@@ -172,7 +172,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	public void removed() {
-		this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
+
 	}
 
 	protected abstract void populateAndSendPacket();

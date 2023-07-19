@@ -4,7 +4,6 @@ import com.mrbysco.particlemimicry.ParticleMimicry;
 import com.mrbysco.particlemimicry.blocks.ParticleEmitterBlock;
 import com.mrbysco.particlemimicry.blocks.entity.ParticleEmitterBlockEntity;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -25,5 +24,5 @@ public class MimicryRegistry {
 	public static final RegistryObject<BlockEntityType<ParticleEmitterBlockEntity>> PARTICLE_EMITTER_ENTITY = BLOCK_ENTITIES.register("particle_emitter", () ->
 			BlockEntityType.Builder.of(ParticleEmitterBlockEntity::new, PARTICLE_EMITTER.get()).build(null));
 	public static final RegistryObject<Item> PARTICLE_EMITTER_ITEM = ITEMS.register("particle_emitter", () -> new BlockItem(PARTICLE_EMITTER.get(),
-			new Item.Properties().tab(CreativeModeTab.TAB_REDSTONE)));
+			new Item.Properties()));
 }

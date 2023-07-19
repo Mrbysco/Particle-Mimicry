@@ -2,19 +2,21 @@ package com.mrbysco.particlemimicry.datagen.data;
 
 import com.mrbysco.particlemimicry.ParticleMimicry;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
 
 public class MimicryBlockTagProvider extends BlockTagsProvider {
-	public MimicryBlockTagProvider(DataGenerator generator, @Nullable ExistingFileHelper fileHelper) {
-		super(generator, ParticleMimicry.MOD_ID, fileHelper);
+	public MimicryBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @javax.annotation.Nullable ExistingFileHelper existingFileHelper) {
+		super(output, lookupProvider, ParticleMimicry.MOD_ID, existingFileHelper);
 	}
 
 	@Override
-	protected void addTags() {
+	protected void addTags(HolderLookup.Provider provider) {
 		this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(MimicryRegistry.PARTICLE_EMITTER.get());
 	}
 }

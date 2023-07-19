@@ -1,41 +1,37 @@
 package com.mrbysco.particlemimicry.datagen.data;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.util.Pair;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.Set;
 
 public class MimicryLootProvider extends LootTableProvider {
-	public MimicryLootProvider(DataGenerator gen) {
-		super(gen);
+	public MimicryLootProvider(PackOutput output) {
+		super(output, Set.of(), List.of(
+				new SubProviderEntry(ChunkyBlockLoot::new, LootContextParamSets.BLOCK)
+		));
 	}
 
-	@Override
-	protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
-		return ImmutableList.of(
-				Pair.of(ChunkyBlockLoot::new, LootContextParamSets.BLOCK)
-		);
-	}
+	public static class ChunkyBlockLoot extends BlockLootSubProvider {
 
-	public static class ChunkyBlockLoot extends BlockLoot {
+		protected ChunkyBlockLoot() {
+			super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+		}
+
 		@Override
-		protected void addTables() {
+		protected void generate() {
 			dropSelf(MimicryRegistry.PARTICLE_EMITTER.get());
 		}
 

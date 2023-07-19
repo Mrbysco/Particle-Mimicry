@@ -2,7 +2,7 @@ package com.mrbysco.particlemimicry.datagen.assets;
 
 import com.mrbysco.particlemimicry.ParticleMimicry;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -10,8 +10,8 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class MimicryStateProvider extends BlockStateProvider {
-	public MimicryStateProvider(DataGenerator gen, ExistingFileHelper helper) {
-		super(gen, ParticleMimicry.MOD_ID, helper);
+	public MimicryStateProvider(PackOutput output, ExistingFileHelper helper) {
+		super(output, ParticleMimicry.MOD_ID, helper);
 	}
 
 	@Override

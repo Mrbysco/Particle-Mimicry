@@ -2,7 +2,7 @@ package com.mrbysco.particlemimicry.networking.message;
 
 import com.mrbysco.particlemimicry.blocks.entity.ParticleEmitterBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -52,10 +52,10 @@ public class SetParticleEmitterDataMessage {
 		ctx.enqueueWork(() -> {
 			if (ctx.getDirection().getReceptionSide().isServer() && ctx.getSender() != null) {
 				MinecraftServer server = ctx.getSender().getServer();
-				var dimensionKey = ResourceKey.create(Registry.DIMENSION_REGISTRY, dimension);
+				var dimensionKey = ResourceKey.create(Registries.DIMENSION, dimension);
 				ServerLevel level = server.getLevel(dimensionKey);
 
-				if(level.getBlockEntity(pos) instanceof ParticleEmitterBlockEntity blockEntity) {
+				if (level.getBlockEntity(pos) instanceof ParticleEmitterBlockEntity blockEntity) {
 					blockEntity.setData(particleType, offset, specialParameters, delta, speed, count);
 					blockEntity.refreshClient();
 				}

@@ -1,24 +1,24 @@
 package com.mrbysco.particlemimicry.datagen.data;
 
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
 
 public class MimicryRecipeProvider extends RecipeProvider {
-	public MimicryRecipeProvider(DataGenerator gen) {
-		super(gen);
+	public MimicryRecipeProvider(PackOutput packOutput) {
+		super(packOutput);
 	}
 
 	@Override
-	protected void buildCraftingRecipes(Consumer<FinishedRecipe> recipeConsumer) {
-		ShapedRecipeBuilder.shaped(MimicryRegistry.PARTICLE_EMITTER.get())
+	protected void buildRecipes(Consumer<FinishedRecipe> recipeConsumer) {
+		ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MimicryRegistry.PARTICLE_EMITTER.get())
 				.pattern("CCC")
 				.pattern("RVR")
 				.pattern("GCG")

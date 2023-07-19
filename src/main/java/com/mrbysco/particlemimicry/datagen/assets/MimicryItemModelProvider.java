@@ -2,14 +2,14 @@ package com.mrbysco.particlemimicry.datagen.assets;
 
 import com.mrbysco.particlemimicry.ParticleMimicry;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class MimicryItemModelProvider extends ItemModelProvider {
-	public MimicryItemModelProvider(DataGenerator gen, ExistingFileHelper helper) {
-		super(gen, ParticleMimicry.MOD_ID, helper);
+	public MimicryItemModelProvider(PackOutput output, ExistingFileHelper helper) {
+		super(output, ParticleMimicry.MOD_ID, helper);
 	}
 
 	@Override
