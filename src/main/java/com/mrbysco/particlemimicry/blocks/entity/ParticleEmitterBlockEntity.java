@@ -22,14 +22,15 @@ import org.jetbrains.annotations.Nullable;
 public class ParticleEmitterBlockEntity extends BlockEntity {
 	public String particleType, offset, specialParameters, delta, speed, count;
 	public String particleCommand;
+	public int interval;
 
 	public ParticleEmitterBlockEntity(BlockPos pos, BlockState state) {
 		super(MimicryRegistry.PARTICLE_EMITTER_ENTITY.get(), pos, state);
-		setData("", "", "", "", "", "");
+		setData("", "", "", "", "", "", "20");
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ParticleEmitterBlockEntity blockEntity) {
-		if (level.getGameTime() % 20 == 0){
+		if (level.getGameTime() % blockEntity.interval == 0) {
 			MinecraftServer minecraftserver = level.getServer();
 			blockEntity.constructCommand();
 
@@ -51,13 +52,21 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		}
 	}
 
-	public void setData(String particleType, String offset, String specialParameters, String delta, String speed, String count) {
+	public void setData(String particleType, String offset, String specialParameters, String delta, String speed, String count, String interval) {
 		this.particleType = particleType;
 		this.offset = checkOffset(offset);
 		this.specialParameters = specialParameters;
 		this.delta = delta;
 		this.speed = speed;
 		this.count = count;
+		int value = 20;
+		try {
+			int parsedValue = Integer.parseInt(interval);
+			value = parsedValue > 0 ? parsedValue : 20;
+		} catch (NumberFormatException e) {
+			//Nope
+		}
+		this.interval = value;
 	}
 
 	private String checkOffset(String offset) {

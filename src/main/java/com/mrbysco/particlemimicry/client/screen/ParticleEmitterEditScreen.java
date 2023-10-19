@@ -7,12 +7,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 
 public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen {
-	private String oldParticleType, oldOffset, oldParameters, oldDelta, oldSpeed, oldCount;
+	private String oldParticleType, oldOffset, oldParameters, oldDelta, oldSpeed, oldCount, oldInterval;
 	private final BlockPos blockPos;
 	private final ResourceLocation dimension;
 
 	public ParticleEmitterEditScreen(BlockPos blockPos, ResourceLocation dimension,
-									 String particleType, String offset, String parameters, String delta, String speed, String count) {
+									 String particleType, String offset, String parameters, String delta, String speed, String count, String interval) {
 		this.blockPos = blockPos;
 		this.dimension = dimension;
 		this.oldParticleType = particleType;
@@ -21,11 +21,12 @@ public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen
 		this.oldDelta = delta;
 		this.oldSpeed = speed;
 		this.oldCount = count;
+		this.oldInterval = interval;
 	}
 
 	public static void openScreen(BlockPos pos, ResourceLocation dimension,
-								  String particleType, String offset, String parameters, String delta, String speed, String count) {
-		Minecraft.getInstance().setScreen(new ParticleEmitterEditScreen(pos, dimension, particleType, offset, parameters, delta, speed, count));
+								  String particleType, String offset, String parameters, String delta, String speed, String count, String interval) {
+		Minecraft.getInstance().setScreen(new ParticleEmitterEditScreen(pos, dimension, particleType, offset, parameters, delta, speed, count, interval));
 	}
 
 	protected void init() {
@@ -36,6 +37,7 @@ public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen
 		this.deltaEdit.setValue(this.oldDelta);
 		this.speedEdit.setValue(this.oldSpeed);
 		this.countEdit.setValue(this.oldCount);
+		this.intervalEdit.setValue(this.oldInterval);
 	}
 
 	private void enableControls(boolean value) {
@@ -54,7 +56,8 @@ public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen
 				specialParametersEdit.getValue(),
 				deltaEdit.getValue(),
 				speedEdit.getValue(),
-				countEdit.getValue()
+				countEdit.getValue(),
+				intervalEdit.getValue()
 		));
 	}
 }

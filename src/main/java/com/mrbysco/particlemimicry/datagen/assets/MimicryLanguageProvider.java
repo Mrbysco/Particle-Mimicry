@@ -21,5 +21,6 @@ public class MimicryLanguageProvider extends LanguageProvider {
 		add("particlemimicry.delta", "Delta");
 		add("particlemimicry.speed", "Speed");
 		add("particlemimicry.count", "Count");
+		add("particlemimicry.interval", "Interval");
 	}
 }

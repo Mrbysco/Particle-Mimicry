@@ -23,6 +23,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	protected EditBox deltaEdit;
 	protected NumberEditBox speedEdit;
 	protected NumberEditBox countEdit;
+	protected NumberEditBox intervalEdit;
 	protected Button doneButton;
 	protected Button cancelButton;
 	ParticleSuggestions particleSuggestions;
@@ -35,6 +36,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	private static final String deltaSuggestion = "Delta";
 	private static final String speedSuggestion = "Speed";
 	private static final String countSuggestion = "Count";
+	private static final String intervalSuggestion = "Interval";
 
 	public AbstractParticleEmitterEditScreen() {
 		super(GameNarrator.NO_TITLE);
@@ -100,7 +102,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.deltaSuggestions.setAllowSuggestions(true);
 		this.deltaSuggestions.updateCommandInfo();
 
-		this.speedEdit = new NumberEditBox(this.font, this.width / 2 - 150, 170, 120, 20,
+		this.speedEdit = new NumberEditBox(this.font, this.width / 2 - 150, 170, 90, 20,
 				Component.translatable("particlemimicry.speed"), 4) {
 		};
 		this.speedEdit.setMaxLength(5);
@@ -108,13 +110,21 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.speedEdit.setValue("0");
 		this.addWidget(this.speedEdit);
 
-		this.countEdit = new NumberEditBox(this.font, this.width / 2 + 30, 170, 120, 20,
+		this.countEdit = new NumberEditBox(this.font, this.width / 2 - 45, 170, 90, 20,
 				Component.translatable("particlemimicry.count"), 0) {
 		};
 		this.countEdit.setMaxLength(5);
 		this.countEdit.setSuggestion(countSuggestion);
 		this.countEdit.setValue("0");
 		this.addWidget(this.countEdit);
+
+		this.intervalEdit = new NumberEditBox(this.font, this.width / 2 + 60, 170, 90, 20,
+				Component.translatable("particlemimicry.interval"), 0) {
+		};
+		this.intervalEdit.setMaxLength(5);
+		this.intervalEdit.setSuggestion(intervalSuggestion);
+		this.intervalEdit.setValue("20");
+		this.addWidget(this.intervalEdit);
 	}
 
 	public void tick() {
@@ -142,6 +152,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		updateSuggestion(deltaEdit, deltaSuggestion);
 		updateSuggestion(speedEdit, speedSuggestion);
 		updateSuggestion(countEdit, countSuggestion);
+		updateSuggestion(intervalEdit, intervalSuggestion);
 	}
 
 	private void updateSuggestion(EditBox box, String suggestion) {
@@ -164,6 +175,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.deltaSuggestions.updateCommandInfo();
 		this.speedEdit.setValue(this.speedEdit.getValue());
 		this.countEdit.setValue(this.countEdit.getValue());
+		this.intervalEdit.setValue(this.intervalEdit.getValue());
 	}
 
 	protected void onDone() {
@@ -226,6 +238,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			specialParametersEdit.setFocused(false);
 			speedEdit.setFocused(false);
 			countEdit.setFocused(false);
+			intervalEdit.setFocused(false);
 			return true;
 		} else if (offsetEdit.isFocused() && this.offsetSuggestions.mouseClicked(mouseX, mouseY, delta)) {
 			particleTypeEdit.setFocused(false);
@@ -233,6 +246,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			specialParametersEdit.setFocused(false);
 			speedEdit.setFocused(false);
 			countEdit.setFocused(false);
+			intervalEdit.setFocused(false);
 			return true;
 		} else if (deltaEdit.isFocused() && this.deltaSuggestions.mouseClicked(mouseX, mouseY, delta)) {
 			particleTypeEdit.setFocused(false);
@@ -240,6 +254,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			specialParametersEdit.setFocused(false);
 			speedEdit.setFocused(false);
 			countEdit.setFocused(false);
+			intervalEdit.setFocused(false);
 			return true;
 		} else {
 			particleTypeEdit.setFocused(false);
@@ -248,6 +263,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			deltaEdit.setFocused(false);
 			speedEdit.setFocused(false);
 			countEdit.setFocused(false);
+			intervalEdit.setFocused(false);
 			return super.mouseClicked(mouseX, mouseY, delta);
 		}
 	}
@@ -262,6 +278,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.deltaEdit.render(guiGraphics, mouseX, mouseY, partialTick);
 		this.speedEdit.render(guiGraphics, mouseX, mouseY, partialTick);
 		this.countEdit.render(guiGraphics, mouseX, mouseY, partialTick);
+		this.intervalEdit.render(guiGraphics, mouseX, mouseY, partialTick);
 
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		if (particleTypeEdit.isFocused())

@@ -2,6 +2,7 @@
   "block.particlemimicry.particle_emitter": "Particle Emitter",
   "particlemimicry.count": "Count",
   "particlemimicry.delta": "Delta",
+  "particlemimicry.interval": "Interval",
   "particlemimicry.offset": "Delta",
   "particlemimicry.particle": "Particle Type",
   "particlemimicry.setParticle": "Set Particle Type",

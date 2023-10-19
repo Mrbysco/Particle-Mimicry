@@ -15,10 +15,10 @@ import java.util.function.Supplier;
 public class SetParticleEmitterDataMessage {
 	public BlockPos pos;
 	public ResourceLocation dimension;
-	public String particleType, offset, specialParameters, delta, speed, count;
+	public String particleType, offset, specialParameters, delta, speed, count, interval;
 
 	public SetParticleEmitterDataMessage(BlockPos pos, ResourceLocation dimension, String particleType, String offset, String specialParameters,
-										 String delta, String speed, String count) {
+										 String delta, String speed, String count, String interval) {
 		this.pos = pos;
 		this.dimension = dimension;
 		this.particleType = particleType.trim();
@@ -27,6 +27,7 @@ public class SetParticleEmitterDataMessage {
 		this.delta = delta.trim();
 		this.speed = speed.trim();
 		this.count = count.trim();
+		this.interval = interval.trim();
 	}
 
 	public void encode(FriendlyByteBuf buf) {
@@ -38,12 +39,13 @@ public class SetParticleEmitterDataMessage {
 		buf.writeUtf(delta);
 		buf.writeUtf(speed);
 		buf.writeUtf(count);
+		buf.writeUtf(interval);
 	}
 
 	public static SetParticleEmitterDataMessage decode(final FriendlyByteBuf packetBuffer) {
 		return new SetParticleEmitterDataMessage(packetBuffer.readBlockPos(), packetBuffer.readResourceLocation(), packetBuffer.readUtf(),
 				packetBuffer.readUtf(), packetBuffer.readUtf(), packetBuffer.readUtf(),
-				packetBuffer.readUtf(), packetBuffer.readUtf()
+				packetBuffer.readUtf(), packetBuffer.readUtf(), packetBuffer.readUtf()
 		);
 	}
 
@@ -56,7 +58,7 @@ public class SetParticleEmitterDataMessage {
 				ServerLevel level = server.getLevel(dimensionKey);
 
 				if (level.getBlockEntity(pos) instanceof ParticleEmitterBlockEntity blockEntity) {
-					blockEntity.setData(particleType, offset, specialParameters, delta, speed, count);
+					blockEntity.setData(particleType, offset, specialParameters, delta, speed, count, interval);
 					blockEntity.refreshClient();
 				}
 			}
