@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -65,6 +66,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.particleSuggestions = new ParticleSuggestions(this.minecraft, this, this.particleTypeEdit, this.font);
 		this.particleSuggestions.setAllowSuggestions(true);
 		this.particleSuggestions.updateCommandInfo();
+		this.particleTypeEdit.setTooltip(Tooltip.create(Component.translatable(typeSuggestion)));
 
 		this.offsetEdit = new EditBox(this.font, this.width / 2 - 150, 80, 300, 20,
 				Component.translatable("particlemimicry.offset")) {
@@ -80,12 +82,14 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.offsetSuggestions = new DeltaSuggestions(this.minecraft, this, this.offsetEdit, this.font, true);
 		this.offsetSuggestions.setAllowSuggestions(true);
 		this.offsetSuggestions.updateCommandInfo();
+		this.offsetEdit.setTooltip(Tooltip.create(Component.translatable(offsetSuggestion)));
 
 		this.specialParametersEdit = new EditBox(this.font, this.width / 2 - 150, 110, 300, 20,
 				Component.translatable("particlemimicry.specialParameters"));
 		this.specialParametersEdit.setMaxLength(200);
 		this.specialParametersEdit.setSuggestion(specialSuggestion);
 		this.addWidget(this.specialParametersEdit);
+		this.specialParametersEdit.setTooltip(Tooltip.create(Component.translatable(specialSuggestion)));
 
 		this.deltaEdit = new EditBox(this.font, this.width / 2 - 150, 140, 300, 20,
 				Component.translatable("particlemimicry.delta")) {
@@ -101,6 +105,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.deltaSuggestions = new DeltaSuggestions(this.minecraft, this, this.deltaEdit, this.font, false);
 		this.deltaSuggestions.setAllowSuggestions(true);
 		this.deltaSuggestions.updateCommandInfo();
+		this.deltaEdit.setTooltip(Tooltip.create(Component.translatable(deltaSuggestion)));
 
 		this.speedEdit = new NumberEditBox(this.font, this.width / 2 - 150, 170, 90, 20,
 				Component.translatable("particlemimicry.speed"), 4) {
@@ -108,6 +113,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.speedEdit.setMaxLength(5);
 		this.deltaEdit.setSuggestion(speedSuggestion);
 		this.speedEdit.setValue("0");
+		this.speedEdit.setTooltip(Tooltip.create(Component.translatable(speedSuggestion)));
 		this.addWidget(this.speedEdit);
 
 		this.countEdit = new NumberEditBox(this.font, this.width / 2 - 45, 170, 90, 20,
@@ -115,7 +121,8 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		};
 		this.countEdit.setMaxLength(5);
 		this.countEdit.setSuggestion(countSuggestion);
-		this.countEdit.setValue("0");
+		this.countEdit.setValue("0");;
+		this.countEdit.setTooltip(Tooltip.create(Component.translatable(countSuggestion)));
 		this.addWidget(this.countEdit);
 
 		this.intervalEdit = new NumberEditBox(this.font, this.width / 2 + 60, 170, 90, 20,
@@ -124,6 +131,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.intervalEdit.setMaxLength(5);
 		this.intervalEdit.setSuggestion(intervalSuggestion);
 		this.intervalEdit.setValue("20");
+		this.intervalEdit.setTooltip(Tooltip.create(Component.translatable(intervalSuggestion)));
 		this.addWidget(this.intervalEdit);
 	}
 
