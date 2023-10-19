@@ -30,6 +30,9 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ParticleEmitterBlockEntity blockEntity) {
+		if (blockEntity.interval <= 0) {
+			blockEntity.interval = 20;
+		}
 		if (level.getGameTime() % blockEntity.interval == 0) {
 			MinecraftServer minecraftserver = level.getServer();
 			blockEntity.constructCommand();
