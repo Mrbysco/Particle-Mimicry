@@ -1,1 +1,2 @@
-* Initial update to 1.20
+* Add interval to the Particle Emitter GUI
+* Add tooltips to each field in the Particle Emitter GUI
