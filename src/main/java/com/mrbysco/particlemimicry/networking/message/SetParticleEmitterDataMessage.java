@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.network.NetworkEvent.Context;
+import net.neoforged.neoforge.network.NetworkEvent.Context;
 
 import java.util.function.Supplier;
 
@@ -49,8 +49,7 @@ public class SetParticleEmitterDataMessage {
 		);
 	}
 
-	public void handle(Supplier<Context> context) {
-		Context ctx = context.get();
+	public void handle(Context ctx) {
 		ctx.enqueueWork(() -> {
 			if (ctx.getDirection().getReceptionSide().isServer() && ctx.getSender() != null) {
 				MinecraftServer server = ctx.getSender().getServer();

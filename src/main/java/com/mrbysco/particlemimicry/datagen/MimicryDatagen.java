@@ -10,11 +10,11 @@ import com.mrbysco.particlemimicry.datagen.data.MimicryRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -29,7 +29,7 @@ public class MimicryDatagen {
 
 		if (event.includeServer()) {
 			generator.addProvider(true, new MimicryLootProvider(packOutput));
-			generator.addProvider(true, new MimicryRecipeProvider(packOutput));
+			generator.addProvider(true, new MimicryRecipeProvider(packOutput, lookupProvider));
 			BlockTagsProvider provider;
 			generator.addProvider(true, provider = new MimicryBlockTagProvider(packOutput, lookupProvider, helper));
 			generator.addProvider(true, new MimicryItemTagProvider(packOutput, lookupProvider, provider, helper));

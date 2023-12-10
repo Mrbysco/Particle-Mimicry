@@ -50,11 +50,11 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_leaves",
       "has_lapis_block",
       "has_redstone_dust",
-      "has_glowstone_dust",
-      "has_the_recipe"
+      "has_glowstone_dust"
     ]
   ],
   "rewards": {

@@ -6,6 +6,7 @@ import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 public class ParticleEmitterBlockEntity extends BlockEntity {
@@ -125,7 +125,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		commandBuilder.append(" " + particleType);
 		//Add the offset to the command
 		if (!offset.isEmpty()) {
-			commandBuilder.append(" " + offset);
+			commandBuilder.append(" ").append(offset);
 		} else {
 			commandBuilder.append(" ~ ~ ~");
 		}
@@ -134,12 +134,12 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 			commandBuilder.append(" " + specialParameters);
 		} else {
 			if (particleType.equalsIgnoreCase("block")) {
-				commandBuilder.append(" " + ForgeRegistries.BLOCKS.getKey(getBlockState().getBlock()));
+				commandBuilder.append(" ").append(BuiltInRegistries.BLOCK.getKey(getBlockState().getBlock()));
 			}
 		}
 		//Add the delta to the command
 		if (!delta.isEmpty()) {
-			commandBuilder.append(" " + delta);
+			commandBuilder.append(" ").append(delta);
 		} else {
 			commandBuilder.append(" 0 0 0");
 		}
@@ -181,7 +181,8 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 
 	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		load(pkt.getTag());
+		if (pkt.getTag() != null)
+			load(pkt.getTag());
 
 		BlockState state = level.getBlockState(getBlockPos());
 		level.sendBlockUpdated(getBlockPos(), state, state, 3);

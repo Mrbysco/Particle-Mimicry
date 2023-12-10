@@ -3,7 +3,7 @@ package com.mrbysco.particlemimicry.datagen.assets;
 import com.mrbysco.particlemimicry.ParticleMimicry;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.common.data.LanguageProvider;
 
 public class MimicryLanguageProvider extends LanguageProvider {
 	public MimicryLanguageProvider(PackOutput output) {

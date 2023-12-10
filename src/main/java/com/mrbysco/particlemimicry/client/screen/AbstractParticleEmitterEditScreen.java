@@ -121,7 +121,8 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		};
 		this.countEdit.setMaxLength(5);
 		this.countEdit.setSuggestion(countSuggestion);
-		this.countEdit.setValue("0");;
+		this.countEdit.setValue("0");
+		;
 		this.countEdit.setTooltip(Tooltip.create(Component.translatable(countSuggestion)));
 		this.addWidget(this.countEdit);
 
@@ -136,13 +137,9 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	public void tick() {
-		this.particleTypeEdit.tick();
 		this.particleSuggestions.tick();
-		this.offsetEdit.tick();
 		this.offsetSuggestions.tick();
 
-		this.specialParametersEdit.tick();
-		this.deltaEdit.tick();
 		this.deltaSuggestions.tick();
 
 		if (!particleTypeEdit.isFocused() && particleTypeEdit.suggestion != null)
@@ -227,15 +224,15 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		}
 	}
 
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
 		if (particleTypeEdit.isFocused()) {
-			return this.particleSuggestions.mouseScrolled(delta) ? true : super.mouseScrolled(mouseX, mouseY, delta);
+			return this.particleSuggestions.mouseScrolled(scrollX) ? true : super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 		} else if (offsetEdit.isFocused()) {
-			return this.offsetSuggestions.mouseScrolled(delta) ? true : super.mouseScrolled(mouseX, mouseY, delta);
+			return this.offsetSuggestions.mouseScrolled(scrollX) ? true : super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 		} else if (deltaEdit.isFocused()) {
-			return this.deltaSuggestions.mouseScrolled(delta) ? true : super.mouseScrolled(mouseX, mouseY, delta);
+			return this.deltaSuggestions.mouseScrolled(scrollX) ? true : super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 		}
-		return super.mouseScrolled(mouseX, mouseY, delta);
+		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
 
 	public boolean mouseClicked(double mouseX, double mouseY, int delta) {
@@ -277,7 +274,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		this.renderBackground(guiGraphics);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
 		guiGraphics.drawCenteredString(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, 16777215);
 		guiGraphics.drawString(this.font, COMMAND_LABEL, this.width / 2 - 150, 40, 10526880, false);
 		this.particleTypeEdit.render(guiGraphics, mouseX, mouseY, partialTick);

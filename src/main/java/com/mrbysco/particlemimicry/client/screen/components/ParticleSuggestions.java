@@ -8,8 +8,8 @@ import net.minecraft.client.gui.components.CommandSuggestions;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Mth;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class ParticleSuggestions extends CommandSuggestions {
 			return;
 		}
 		previous = value;
-		List<String> particleTypes = new ArrayList<>(ForgeRegistries.PARTICLE_TYPES.getKeys().stream().map(it ->
+		List<String> particleTypes = new ArrayList<>(BuiltInRegistries.PARTICLE_TYPE.keySet().stream().map(it ->
 				it.getNamespace().equals("minecraft") ? it.getPath() : it.toString()).toList());
 
 		if (value.length() > 0)
