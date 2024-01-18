@@ -1,23 +1,16 @@
 package com.mrbysco.particlemimicry.networking;
 
 import com.mrbysco.particlemimicry.ParticleMimicry;
-import com.mrbysco.particlemimicry.networking.message.SetParticleEmitterDataMessage;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.NetworkRegistry;
-import net.neoforged.neoforge.network.simple.SimpleChannel;
+import com.mrbysco.particlemimicry.networking.handler.ServerPayloadHandler;
+import com.mrbysco.particlemimicry.networking.message.SetParticleDataPayload;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
+import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
 
 public class PacketHandler {
-	private static final String PROTOCOL_VERSION = "1";
-	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-			new ResourceLocation(ParticleMimicry.MOD_ID, "main"),
-			() -> PROTOCOL_VERSION,
-			PROTOCOL_VERSION::equals,
-			PROTOCOL_VERSION::equals
-	);
+	public static void setupPackets(final RegisterPayloadHandlerEvent event) {
+		final IPayloadRegistrar registrar = event.registrar(ParticleMimicry.MOD_ID);
 
-	private static int id = 0;
-
-	public static void init() {
-		CHANNEL.registerMessage(id++, SetParticleEmitterDataMessage.class, SetParticleEmitterDataMessage::encode, SetParticleEmitterDataMessage::decode, SetParticleEmitterDataMessage::handle);
+		registrar.play(SetParticleDataPayload.ID, SetParticleDataPayload::new, handler -> handler
+				.server(ServerPayloadHandler.getInstance()::handleParticleData));
 	}
 }

@@ -1,5 +1,6 @@
 package com.mrbysco.particlemimicry.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.mrbysco.particlemimicry.blocks.entity.ParticleEmitterBlockEntity;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
 import net.minecraft.core.BlockPos;
@@ -24,12 +25,18 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import org.jetbrains.annotations.Nullable;
 
 public class ParticleEmitterBlock extends BaseEntityBlock {
+	public static final MapCodec<ParticleEmitterBlock> CODEC = simpleCodec(ParticleEmitterBlock::new);
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 	public static final BooleanProperty MIMICING = BooleanProperty.create("mimicing");
 
 	public ParticleEmitterBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(POWERED, Boolean.valueOf(false)).setValue(MIMICING, Boolean.valueOf(false)));
+	}
+
+	@Override
+	protected MapCodec<? extends BaseEntityBlock> codec() {
+		return CODEC;
 	}
 
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {

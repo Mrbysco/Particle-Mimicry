@@ -122,7 +122,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		//Construct command string
 		StringBuilder commandBuilder = new StringBuilder("particle");
 		//Add the particle type to the command
-		commandBuilder.append(" " + particleType);
+		commandBuilder.append(" ").append(particleType);
 		//Add the offset to the command
 		if (!offset.isEmpty()) {
 			commandBuilder.append(" ").append(offset);
@@ -131,7 +131,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		}
 		//Add the special parameters to the command if they exist
 		if (!specialParameters.isEmpty()) {
-			commandBuilder.append(" " + specialParameters);
+			commandBuilder.append(" ").append(specialParameters);
 		} else {
 			if (particleType.equalsIgnoreCase("block")) {
 				commandBuilder.append(" ").append(BuiltInRegistries.BLOCK.getKey(getBlockState().getBlock()));
@@ -145,13 +145,13 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		}
 		//Add the speed to the command
 		if (!speed.isEmpty()) {
-			commandBuilder.append(" " + speed);
+			commandBuilder.append(" ").append(speed);
 		} else {
 			commandBuilder.append(" 0");
 		}
 		//Add the count to the command
 		if (!count.isEmpty()) {
-			commandBuilder.append(" " + count);
+			commandBuilder.append(" ").append(count);
 		} else {
 			commandBuilder.append(" 1");
 		}

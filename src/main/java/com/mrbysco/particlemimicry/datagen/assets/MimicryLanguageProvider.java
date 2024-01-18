@@ -22,5 +22,7 @@ public class MimicryLanguageProvider extends LanguageProvider {
 		add("particlemimicry.speed", "Speed");
 		add("particlemimicry.count", "Count");
 		add("particlemimicry.interval", "Interval");
+
+		add("particlemimicry.networking.set_particle_data.failed", "Failed to set Particle Emitter data %s");
 	}
 }

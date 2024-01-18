@@ -1,10 +1,10 @@
 package com.mrbysco.particlemimicry.client.screen;
 
-import com.mrbysco.particlemimicry.networking.PacketHandler;
-import com.mrbysco.particlemimicry.networking.message.SetParticleEmitterDataMessage;
+import com.mrbysco.particlemimicry.networking.message.SetParticleDataPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen {
 	private String oldParticleType, oldOffset, oldParameters, oldDelta, oldSpeed, oldCount, oldInterval;
@@ -50,7 +50,7 @@ public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen
 	}
 
 	protected void populateAndSendPacket() {
-		PacketHandler.CHANNEL.sendToServer(new SetParticleEmitterDataMessage(blockPos, dimension,
+		PacketDistributor.SERVER.noArg().send(new SetParticleDataPayload(blockPos, dimension,
 				particleTypeEdit.getValue(),
 				offsetEdit.getValue(),
 				specialParametersEdit.getValue(),
