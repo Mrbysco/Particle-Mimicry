@@ -12,6 +12,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -85,11 +86,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 					boolean endingWith = offsetValue.endsWith("~");
 					offsetValue = offsetValue.replace("~", "");
 					if (isNumeric(offsetValue)) {
-						if (Integer.parseInt(offsetValue) > 5) {
-							offsetValue = "5";
-						} else if (Integer.parseInt(offsetValue) < 5) {
-							offsetValue = "-5";
-						}
+						offsetValue = String.valueOf(Mth.clamp(Integer.parseInt(offsetValue), -5, 5));
 					}
 					if (startingWith) {
 						offsetValue = "~" + offsetValue;
@@ -98,11 +95,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 					}
 				} else {
 					if (isNumeric(offsetValue)) {
-						if (Integer.parseInt(offsetValue) > 5) {
-							offsetValue = "5";
-						} else if (Integer.parseInt(offsetValue) < 5) {
-							offsetValue = "-5";
-						}
+						offsetValue = String.valueOf(Mth.clamp(Integer.parseInt(offsetValue), -5, 5));
 					}
 				}
 				offsetArray[i] = offsetValue;
