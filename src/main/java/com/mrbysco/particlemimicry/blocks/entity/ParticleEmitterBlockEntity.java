@@ -87,6 +87,8 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 					if (isNumeric(offsetValue)) {
 						if (Integer.parseInt(offsetValue) > 5) {
 							offsetValue = "5";
+						} else if (Integer.parseInt(offsetValue) < 5) {
+							offsetValue = "-5";
 						}
 					}
 					if (startingWith) {
@@ -98,6 +100,8 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 					if (isNumeric(offsetValue)) {
 						if (Integer.parseInt(offsetValue) > 5) {
 							offsetValue = "5";
+						} else if (Integer.parseInt(offsetValue) < 5) {
+							offsetValue = "-5";
 						}
 					}
 				}
