@@ -25,7 +25,7 @@ public class ServerPayloadHandler {
 						ServerLevel level = server.getLevel(dimensionKey);
 
 						if (level.getBlockEntity(syncData.pos()) instanceof ParticleEmitterBlockEntity blockEntity) {
-							blockEntity.setData(syncData.particleType(), syncData.offset(), syncData.specialParameters(), syncData.delta(), syncData.speed(), syncData.count(), syncData.interval());
+							blockEntity.setData(player, syncData.particleType(), syncData.offset(), syncData.specialParameters(), syncData.delta(), syncData.speed(), syncData.count(), syncData.interval());
 							blockEntity.refreshClient();
 						}
 					});
