@@ -76,18 +76,16 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		};
 		this.offsetEdit.setValue("~ ~ ~");
 		this.offsetEdit.setMaxLength(30);
-		this.offsetEdit.setSuggestion(offsetSuggestion);
 		this.offsetEdit.setResponder(this::onOffsetEdited);
 		this.addWidget(this.offsetEdit);
 		this.offsetSuggestions = new DeltaSuggestions(this.minecraft, this, this.offsetEdit, this.font, true);
 		this.offsetSuggestions.setAllowSuggestions(true);
 		this.offsetSuggestions.updateCommandInfo();
-		this.offsetEdit.setTooltip(Tooltip.create(Component.translatable(offsetSuggestion)));
+		this.offsetEdit.setTooltip(Tooltip.create(Component.literal(offsetSuggestion)));
 
 		this.specialParametersEdit = new EditBox(this.font, this.width / 2 - 150, 110, 300, 20,
 				Component.translatable("particlemimicry.specialParameters"));
 		this.specialParametersEdit.setMaxLength(200);
-		this.specialParametersEdit.setSuggestion(specialSuggestion);
 		this.addWidget(this.specialParametersEdit);
 		this.specialParametersEdit.setTooltip(Tooltip.create(Component.translatable(specialSuggestion)));
 
@@ -99,39 +97,35 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		};
 		this.deltaEdit.setValue("0 0 0");
 		this.deltaEdit.setMaxLength(30);
-		this.deltaEdit.setSuggestion(deltaSuggestion);
 		this.deltaEdit.setResponder(this::onDeltaEdited);
 		this.addWidget(this.deltaEdit);
 		this.deltaSuggestions = new DeltaSuggestions(this.minecraft, this, this.deltaEdit, this.font, false);
 		this.deltaSuggestions.setAllowSuggestions(true);
 		this.deltaSuggestions.updateCommandInfo();
-		this.deltaEdit.setTooltip(Tooltip.create(Component.translatable(deltaSuggestion)));
+		this.deltaEdit.setTooltip(Tooltip.create(Component.literal(deltaSuggestion)));
 
 		this.speedEdit = new NumberEditBox(this.font, this.width / 2 - 150, 170, 90, 20,
 				Component.translatable("particlemimicry.speed"), 4) {
 		};
 		this.speedEdit.setMaxLength(5);
-		this.deltaEdit.setSuggestion(speedSuggestion);
 		this.speedEdit.setValue("0");
-		this.speedEdit.setTooltip(Tooltip.create(Component.translatable(speedSuggestion)));
+		this.speedEdit.setTooltip(Tooltip.create(Component.literal(speedSuggestion)));
 		this.addWidget(this.speedEdit);
 
 		this.countEdit = new NumberEditBox(this.font, this.width / 2 - 45, 170, 90, 20,
 				Component.translatable("particlemimicry.count"), 0) {
 		};
 		this.countEdit.setMaxLength(5);
-		this.countEdit.setSuggestion(countSuggestion);
-		this.countEdit.setValue("0");;
-		this.countEdit.setTooltip(Tooltip.create(Component.translatable(countSuggestion)));
+		this.countEdit.setValue("0");
+		this.countEdit.setTooltip(Tooltip.create(Component.literal(countSuggestion)));
 		this.addWidget(this.countEdit);
 
 		this.intervalEdit = new NumberEditBox(this.font, this.width / 2 + 60, 170, 90, 20,
 				Component.translatable("particlemimicry.interval"), 0) {
 		};
 		this.intervalEdit.setMaxLength(5);
-		this.intervalEdit.setSuggestion(intervalSuggestion);
 		this.intervalEdit.setValue("20");
-		this.intervalEdit.setTooltip(Tooltip.create(Component.translatable(intervalSuggestion)));
+		this.intervalEdit.setTooltip(Tooltip.create(Component.literal(intervalSuggestion)));
 		this.addWidget(this.intervalEdit);
 	}
 
