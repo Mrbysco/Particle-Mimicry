@@ -4,6 +4,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mrbysco.particlemimicry.ParticleMimicry;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
+import net.minecraft.ChatFormatting;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
@@ -13,10 +14,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringUtil;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,7 +33,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 
 	public ParticleEmitterBlockEntity(BlockPos pos, BlockState state) {
 		super(MimicryRegistry.PARTICLE_EMITTER_ENTITY.get(), pos, state);
-		setData("", "", "", "", "", "", "20");
+		setData(null, "", "", "", "", "", "", "20");
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ParticleEmitterBlockEntity blockEntity) {
@@ -58,9 +61,9 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		}
 	}
 
-	public void setData(String particleType, String offset, String specialParameters, String delta, String speed, String count, String interval) {
+	public void setData(@Nullable Player player, String particleType, String offset, String specialParameters, String delta, String speed, String count, String interval) {
 		this.particleType = particleType;
-		this.offset = checkOffset(offset);
+		this.offset = checkOffset(player, offset);
 		this.specialParameters = specialParameters;
 		this.delta = delta;
 		this.speed = speed;
@@ -75,7 +78,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		this.interval = value;
 	}
 
-	private String checkOffset(String offset) {
+	private String checkOffset(@Nullable Player player, String offset) {
 		String offsetString = offset;
 		if (!offsetString.isEmpty()) {
 			//Check the offset against the position of the Particle Emitter to see if it's within 5 blocks of the block
@@ -87,8 +90,12 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 				Vec3 position = worldcoordinates.getPosition(sourceStack);
 				if (position != null) {
 					if (!position.closerThan(centerPos, 5)) {
-						ParticleMimicry.LOGGER.debug("Offset is too far away from the Particle Emitter. Resetting to ~ ~ ~");
-						return "~ ~ ~";
+						if (player != null) {
+							player.sendSystemMessage(Component.literal("Offset is too far away from the Particle Emitter. Resetting to ~ ~1 ~").withStyle(ChatFormatting.RED));
+						} else {
+							ParticleMimicry.LOGGER.debug("Offset is too far away from the Particle Emitter. Resetting to ~ ~1 ~");
+						}
+						return "~ ~1 ~";
 					}
 				}
 			} catch (CommandSyntaxException e) {
