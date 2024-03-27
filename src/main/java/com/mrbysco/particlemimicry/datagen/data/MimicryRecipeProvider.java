@@ -1,7 +1,6 @@
 package com.mrbysco.particlemimicry.datagen.data;
 
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -10,11 +9,9 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.neoforged.neoforge.common.Tags;
 
-import java.util.concurrent.CompletableFuture;
-
 public class MimicryRecipeProvider extends RecipeProvider {
-	public MimicryRecipeProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-		super(packOutput, lookupProvider);
+	public MimicryRecipeProvider(PackOutput packOutput) {
+		super(packOutput);
 	}
 
 	@Override

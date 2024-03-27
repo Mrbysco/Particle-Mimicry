@@ -29,7 +29,7 @@ public class MimicryDatagen {
 
 		if (event.includeServer()) {
 			generator.addProvider(true, new MimicryLootProvider(packOutput));
-			generator.addProvider(true, new MimicryRecipeProvider(packOutput, lookupProvider));
+			generator.addProvider(true, new MimicryRecipeProvider(packOutput));
 			BlockTagsProvider provider;
 			generator.addProvider(true, provider = new MimicryBlockTagProvider(packOutput, lookupProvider, helper));
 			generator.addProvider(true, new MimicryItemTagProvider(packOutput, lookupProvider, provider, helper));
