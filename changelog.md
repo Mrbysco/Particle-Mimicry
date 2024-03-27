@@ -1,2 +1,1 @@
-* Add interval to the Particle Emitter GUI
-* Add tooltips to each field in the Particle Emitter GUI
+* Add a limit to how far away the particle emitter can emit particles (5 blocks)
