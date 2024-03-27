@@ -1,1 +1,1 @@
-* Fix any number below 5 being set to -5 by accident
+* Change the method of calculating the distance of the particle from the Particle Emitter
