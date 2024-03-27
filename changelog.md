@@ -1,1 +1,1 @@
-* Fix negative offset not being limited to 5
+* Fix any number below 5 being set to -5 by accident
