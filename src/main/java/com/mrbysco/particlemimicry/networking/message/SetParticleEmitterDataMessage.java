@@ -58,7 +58,7 @@ public class SetParticleEmitterDataMessage {
 				ServerLevel level = server.getLevel(dimensionKey);
 
 				if (level.getBlockEntity(pos) instanceof ParticleEmitterBlockEntity blockEntity) {
-					blockEntity.setData(particleType, offset, specialParameters, delta, speed, count, interval);
+					blockEntity.setData(ctx.getSender(), particleType, offset, specialParameters, delta, speed, count, interval);
 					blockEntity.refreshClient();
 				}
 			}
