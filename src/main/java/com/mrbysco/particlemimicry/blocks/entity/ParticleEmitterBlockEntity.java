@@ -1,10 +1,14 @@
 package com.mrbysco.particlemimicry.blocks.entity;
 
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mrbysco.particlemimicry.ParticleMimicry;
 import com.mrbysco.particlemimicry.registry.MimicryRegistry;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.coordinates.WorldCoordinates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -12,7 +16,6 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,14 +38,13 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 			blockEntity.interval = 20;
 		}
 		if (level.getGameTime() % blockEntity.interval == 0) {
-			MinecraftServer minecraftserver = level.getServer();
+			MinecraftServer server = level.getServer();
 			blockEntity.constructCommand();
 
-			if (minecraftserver.isCommandBlockEnabled() && !StringUtil.isNullOrEmpty(blockEntity.particleCommand)) {
+			if (!StringUtil.isNullOrEmpty(blockEntity.particleCommand)) {
 				try {
-					CommandSourceStack commandsourcestack = minecraftserver.createCommandSourceStack()
-							.withPosition(Vec3.atCenterOf(pos)).withSuppressedOutput().withLevel((ServerLevel) level);
-					minecraftserver.getCommands().performPrefixedCommand(commandsourcestack, blockEntity.particleCommand);
+					CommandSourceStack commandsourcestack = server.createCommandSourceStack().withPosition(Vec3.atCenterOf(pos)).withSuppressedOutput().withLevel((ServerLevel) level);
+					server.getCommands().performPrefixedCommand(commandsourcestack, blockEntity.particleCommand);
 				} catch (Throwable throwable) {
 					CrashReport crashreport = CrashReport.forThrowable(throwable, "Executing particle emitter block");
 					CrashReportCategory crashreportcategory = crashreport.addCategory("Particle command to be executed");
@@ -76,33 +78,25 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 	private String checkOffset(String offset) {
 		String offsetString = offset;
 		if (!offsetString.isEmpty()) {
-			//Divide the string into an array split by the space
-			String[] offsetArray = offsetString.split(" ");
-			//Check each string if they are a number and check if the number is greater than 5 if so set the number to 5
-			for (int i = 0; i < offsetArray.length; i++) {
-				String offsetValue = offsetArray[i];
-				if (offsetValue.contains("~")) {
-					boolean startingWith = offsetValue.startsWith("~");
-					boolean endingWith = offsetValue.endsWith("~");
-					offsetValue = offsetValue.replace("~", "");
-					if (isNumeric(offsetValue)) {
-						offsetValue = String.valueOf(Mth.clamp(Integer.parseInt(offsetValue), -5, 5));
-					}
-					if (startingWith) {
-						offsetValue = "~" + offsetValue;
-					} else if (endingWith) {
-						offsetValue = offsetValue + "~";
-					}
-				} else {
-					if (isNumeric(offsetValue)) {
-						offsetValue = String.valueOf(Mth.clamp(Integer.parseInt(offsetValue), -5, 5));
+			//Check the offset against the position of the Particle Emitter to see if it's within 5 blocks of the block
+			try {
+				MinecraftServer server = level.getServer();
+				WorldCoordinates worldcoordinates = WorldCoordinates.parseInt(new StringReader(offsetString));
+				Vec3 centerPos = Vec3.atCenterOf(this.getBlockPos());
+				CommandSourceStack sourceStack = server.createCommandSourceStack().withPosition(centerPos).withSuppressedOutput().withLevel((ServerLevel) level);
+				Vec3 position = worldcoordinates.getPosition(sourceStack);
+				if (position != null) {
+					if (!position.closerThan(centerPos, 5)) {
+						ParticleMimicry.LOGGER.debug("Offset is too far away from the Particle Emitter. Resetting to ~ ~ ~");
+						return "~ ~ ~";
 					}
 				}
-				offsetArray[i] = offsetValue;
+			} catch (CommandSyntaxException e) {
+				//Nope
 			}
-			//Join the array back together with spaces
-			offsetString = String.join(" ", offsetArray);
+			return offsetString;
 		}
+
 		return offsetString;
 	}
 

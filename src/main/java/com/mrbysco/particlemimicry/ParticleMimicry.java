@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 @Mod(ParticleMimicry.MOD_ID)
 public class ParticleMimicry {
 	public static final String MOD_ID = "particlemimicry";
-	private static final Logger LOGGER = LogUtils.getLogger();
+	public static final Logger LOGGER = LogUtils.getLogger();
 
 	public ParticleMimicry(IEventBus eventBus) {
 		eventBus.addListener(this::buildContents);
