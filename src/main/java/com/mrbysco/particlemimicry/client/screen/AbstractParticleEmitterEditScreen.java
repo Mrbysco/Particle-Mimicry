@@ -274,6 +274,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		guiGraphics.drawCenteredString(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, 16777215);
 		guiGraphics.drawString(this.font, COMMAND_LABEL, this.width / 2 - 150, 40, 10526880, false);
 		this.particleTypeEdit.render(guiGraphics, mouseX, mouseY, partialTick);
@@ -284,7 +285,6 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.countEdit.render(guiGraphics, mouseX, mouseY, partialTick);
 		this.intervalEdit.render(guiGraphics, mouseX, mouseY, partialTick);
 
-		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		if (particleTypeEdit.isFocused())
 			this.particleSuggestions.render(guiGraphics, mouseX, mouseY);
 
