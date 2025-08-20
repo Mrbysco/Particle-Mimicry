@@ -1,11 +1,18 @@
 {
   "block.particlemimicry.particle_emitter": "Particle Emitter",
   "particlemimicry.count": "Count",
+  "particlemimicry.count.tooltip": "The number of particles to spawn each time",
   "particlemimicry.delta": "Delta",
+  "particlemimicry.delta.tooltip": "The movement delta positions of the particle, dictating which way it moves",
   "particlemimicry.interval": "Interval",
-  "particlemimicry.offset": "Delta",
+  "particlemimicry.interval.tooltip": "The interval between particle spawns",
+  "particlemimicry.offset": "Offset",
+  "particlemimicry.offset.tooltip": "The offset of the particle from the emitter's position",
   "particlemimicry.particle": "Particle Type",
+  "particlemimicry.particle.tooltip": "The ID of the particle",
   "particlemimicry.setParticle": "Set Particle Type",
   "particlemimicry.specialParameters": "Special Parameters",
-  "particlemimicry.speed": "Speed"
+  "particlemimicry.specialParameters.tooltip": "Special parameters for the particle, such as color or size",
+  "particlemimicry.speed": "Speed",
+  "particlemimicry.speed.tooltip": "The multiplier for the particles delta"
 }
