@@ -54,23 +54,23 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		}).bounds(this.width / 2 + 4, this.height / 4 + 120 + 12, 150, 20).build());
 
 		this.particleTypeEdit = new EditBox(this.font, this.width / 2 - 150, 50, 300, 20,
-				Component.translatable("particlemimicry.particle")) {
+				Component.literal(typeSuggestion)) {
 			protected MutableComponent createNarrationMessage() {
 				return super.createNarrationMessage().append(AbstractParticleEmitterEditScreen.this.particleSuggestions.getNarrationMessage());
 			}
 		};
 		this.particleTypeEdit.setMaxLength(100);
 		this.particleTypeEdit.setResponder(this::onEdited);
+		this.particleTypeEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.particle.tooltip")));
 		this.addWidget(this.particleTypeEdit);
 		this.setInitialFocus(this.particleTypeEdit);
 		this.particleTypeEdit.setFocused(true);
 		this.particleSuggestions = new ParticleSuggestions(this.minecraft, this, this.particleTypeEdit, this.font);
 		this.particleSuggestions.setAllowSuggestions(true);
 		this.particleSuggestions.updateCommandInfo();
-		this.particleTypeEdit.setTooltip(Tooltip.create(Component.translatable(typeSuggestion)));
 
 		this.offsetEdit = new EditBox(this.font, this.width / 2 - 150, 80, 300, 20,
-				Component.translatable("particlemimicry.offset")) {
+				Component.literal(offsetSuggestion)) {
 			protected MutableComponent createNarrationMessage() {
 				return super.createNarrationMessage().append(AbstractParticleEmitterEditScreen.this.offsetSuggestions.getNarrationMessage());
 			}
@@ -78,20 +78,20 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.offsetEdit.setValue("~ ~ ~");
 		this.offsetEdit.setMaxLength(30);
 		this.offsetEdit.setResponder(this::onOffsetEdited);
+		this.offsetEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.offset.tooltip")));
 		this.addWidget(this.offsetEdit);
 		this.offsetSuggestions = new DeltaSuggestions(this.minecraft, this, this.offsetEdit, this.font, true);
 		this.offsetSuggestions.setAllowSuggestions(true);
 		this.offsetSuggestions.updateCommandInfo();
-		this.offsetEdit.setTooltip(Tooltip.create(Component.literal(offsetSuggestion)));
 
 		this.specialParametersEdit = new EditBox(this.font, this.width / 2 - 150, 110, 300, 20,
-				Component.translatable("particlemimicry.specialParameters"));
+				Component.literal(specialSuggestion));
 		this.specialParametersEdit.setMaxLength(200);
+		this.specialParametersEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.specialParameters.tooltip")));
 		this.addWidget(this.specialParametersEdit);
-		this.specialParametersEdit.setTooltip(Tooltip.create(Component.translatable(specialSuggestion)));
 
 		this.deltaEdit = new EditBox(this.font, this.width / 2 - 150, 140, 300, 20,
-				Component.translatable("particlemimicry.delta")) {
+				Component.literal(deltaSuggestion)) {
 			protected MutableComponent createNarrationMessage() {
 				return super.createNarrationMessage().append(AbstractParticleEmitterEditScreen.this.deltaSuggestions.getNarrationMessage());
 			}
@@ -103,14 +103,14 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.deltaSuggestions = new DeltaSuggestions(this.minecraft, this, this.deltaEdit, this.font, false);
 		this.deltaSuggestions.setAllowSuggestions(true);
 		this.deltaSuggestions.updateCommandInfo();
-		this.deltaEdit.setTooltip(Tooltip.create(Component.literal(deltaSuggestion)));
+		this.deltaEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.delta.tooltip")));
 
 		this.speedEdit = new NumberEditBox(this.font, this.width / 2 - 150, 170, 90, 20,
 				Component.translatable("particlemimicry.speed"), 4) {
 		};
 		this.speedEdit.setMaxLength(5);
 		this.speedEdit.setValue("0");
-		this.speedEdit.setTooltip(Tooltip.create(Component.literal(speedSuggestion)));
+		this.speedEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.speed.tooltip")));
 		this.addWidget(this.speedEdit);
 
 		this.countEdit = new NumberEditBox(this.font, this.width / 2 - 45, 170, 90, 20,
@@ -118,7 +118,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		};
 		this.countEdit.setMaxLength(5);
 		this.countEdit.setValue("0");
-		this.countEdit.setTooltip(Tooltip.create(Component.literal(countSuggestion)));
+		this.countEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.count.tooltip")));
 		this.addWidget(this.countEdit);
 
 		this.intervalEdit = new NumberEditBox(this.font, this.width / 2 + 60, 170, 90, 20,
@@ -126,16 +126,26 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		};
 		this.intervalEdit.setMaxLength(5);
 		this.intervalEdit.setValue("20");
-		this.intervalEdit.setTooltip(Tooltip.create(Component.literal(intervalSuggestion)));
+		this.intervalEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.interval.tooltip")));
 		this.addWidget(this.intervalEdit);
 	}
 
 	@Override
 	public void tick() {
-		this.particleSuggestions.tick();
-		this.offsetSuggestions.tick();
+		if (this.particleTypeEdit.isFocused())
+			this.particleSuggestions.tick();
+		if (this.offsetEdit.isFocused())
+			this.offsetSuggestions.tick();
+		if (this.deltaEdit.isFocused())
+			this.deltaSuggestions.tick();
 
-		this.deltaSuggestions.tick();
+		updateSuggestion(particleTypeEdit, typeSuggestion);
+		updateSuggestion(offsetEdit, offsetSuggestion);
+		updateSuggestion(specialParametersEdit, specialSuggestion);
+		updateSuggestion(deltaEdit, deltaSuggestion);
+		updateSuggestion(speedEdit, speedSuggestion);
+		updateSuggestion(countEdit, countSuggestion);
+		updateSuggestion(intervalEdit, intervalSuggestion);
 
 		if (!particleTypeEdit.isFocused() && particleTypeEdit.suggestion != null)
 			particleSuggestions.hide();
@@ -145,14 +155,6 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 
 		if (!deltaEdit.isFocused() && deltaEdit.suggestion != null)
 			deltaSuggestions.hide();
-
-		updateSuggestion(particleTypeEdit, typeSuggestion);
-		updateSuggestion(offsetEdit, offsetSuggestion);
-		updateSuggestion(specialParametersEdit, specialSuggestion);
-		updateSuggestion(deltaEdit, deltaSuggestion);
-		updateSuggestion(speedEdit, speedSuggestion);
-		updateSuggestion(countEdit, countSuggestion);
-		updateSuggestion(intervalEdit, intervalSuggestion);
 	}
 
 	private void updateSuggestion(EditBox box, String suggestion) {
@@ -225,11 +227,11 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
 		if (particleTypeEdit.isFocused()) {
-			return this.particleSuggestions.mouseScrolled(scrollX) ? true : super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+			return this.particleSuggestions.mouseScrolled(scrollX) || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 		} else if (offsetEdit.isFocused()) {
-			return this.offsetSuggestions.mouseScrolled(scrollX) ? true : super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+			return this.offsetSuggestions.mouseScrolled(scrollX) || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 		} else if (deltaEdit.isFocused()) {
-			return this.deltaSuggestions.mouseScrolled(scrollX) ? true : super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+			return this.deltaSuggestions.mouseScrolled(scrollX) || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 		}
 		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
@@ -291,13 +293,17 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 
 		PoseStack poseStack = guiGraphics.pose();
 		if (offsetEdit.isFocused()) {
-			poseStack.translate(0, 40, 0);
+			poseStack.pushPose();
+			poseStack.translate(0, 30, 0);
 			this.offsetSuggestions.render(guiGraphics, mouseX, mouseY);
+			poseStack.popPose();
 		}
 
 		if (deltaEdit.isFocused()) {
-			poseStack.translate(0, 80, 0);
+			poseStack.pushPose();
+			poseStack.translate(0, 90, 0);
 			this.deltaSuggestions.render(guiGraphics, mouseX, mouseY);
+			poseStack.popPose();
 		}
 	}
 }

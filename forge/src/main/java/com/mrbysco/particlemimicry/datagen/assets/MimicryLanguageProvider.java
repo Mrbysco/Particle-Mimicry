@@ -15,13 +15,20 @@ public class MimicryLanguageProvider extends LanguageProvider {
 		addBlock(MimicryRegistry.PARTICLE_EMITTER, "Particle Emitter");
 
 		add("particlemimicry.particle", "Particle Type");
+		add("particlemimicry.particle.tooltip", "The ID of the particle");
 		add("particlemimicry.setParticle", "Set Particle Type");
-		add("particlemimicry.offset", "Delta");
+		add("particlemimicry.offset", "Offset");
+		add("particlemimicry.offset.tooltip", "The offset of the particle from the emitter's position");
 		add("particlemimicry.specialParameters", "Special Parameters");
+		add("particlemimicry.specialParameters.tooltip", "Special parameters for the particle, such as color or size");
 		add("particlemimicry.delta", "Delta");
+		add("particlemimicry.delta.tooltip", "The movement delta positions of the particle, dictating which way it moves");
 		add("particlemimicry.speed", "Speed");
+		add("particlemimicry.speed.tooltip", "The multiplier for the particles delta");
 		add("particlemimicry.count", "Count");
+		add("particlemimicry.count.tooltip", "The number of particles to spawn each time");
 		add("particlemimicry.interval", "Interval");
+		add("particlemimicry.interval.tooltip", "The interval between particle spawns");
 
 		add("particlemimicry.networking.set_particle_data.failed", "Failed to set Particle Emitter data %s");
 	}
