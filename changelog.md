@@ -1,1 +1,1 @@
-* Initial MultiLoader build
+* Add tooltips for each field in the Particle Emitter GUI
