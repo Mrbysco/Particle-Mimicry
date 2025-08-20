@@ -3,6 +3,7 @@ package com.mrbysco.particlemimicry.registration;
 import com.mrbysco.particlemimicry.Constants;
 import com.mrbysco.particlemimicry.blocks.ParticleEmitterBlock;
 import com.mrbysco.particlemimicry.blocks.entity.ParticleEmitterBlockEntity;
+import com.mrbysco.particlemimicry.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -21,8 +22,7 @@ public class MimicryRegistry {
             new ParticleEmitterBlock(Block.Properties.of().mapColor(MapColor.TERRACOTTA_BLUE).strength(0.8F).sound(SoundType.METAL).noOcclusion()));
     public static final RegistryObject<BlockItem> PARTICLE_EMITTER_ITEM = ITEMS.register("particle_emitter", () -> new BlockItem(PARTICLE_EMITTER.get(), new Item.Properties()));
 
-    public static final RegistryObject<BlockEntityType<ParticleEmitterBlockEntity>> PARTICLE_EMITTER_ENTITY = BLOCK_ENTITIES.register("particle_emitter", () ->
-            BlockEntityType.Builder.of(ParticleEmitterBlockEntity::new, PARTICLE_EMITTER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ParticleEmitterBlockEntity>> PARTICLE_EMITTER_ENTITY = BLOCK_ENTITIES.register("particle_emitter", Services.PLATFORM::createBlockEntityType);
 
     // Called in the mod initializer / constructor in order to make sure that items are registered
     public static void loadClass() {

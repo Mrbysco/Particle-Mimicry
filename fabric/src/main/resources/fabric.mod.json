@@ -13,7 +13,6 @@
     "issues": "https://github.com/Mrbysco/Particle-Mimicry/issues"
   },
   "license": "MIT",
-  "icon": "assets/modid/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
