@@ -155,6 +155,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		this.particleCommand = commandBuilder.toString();
 	}
 
+	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
 		this.particleType = tag.getString("ParticleType");
@@ -163,9 +164,11 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		this.delta = tag.getString("Delta");
 		this.speed = tag.getString("Speed");
 		this.count = tag.getString("Count");
+		this.interval = tag.getInt("Interval");
 		this.constructCommand();
 	}
 
+	@Override
 	protected void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
 		tag.putString("ParticleType", particleType);
@@ -174,6 +177,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		tag.putString("Delta", delta);
 		tag.putString("Speed", speed);
 		tag.putString("Count", count);
+		tag.putInt("Interval", interval);
 	}
 
 	@Override
