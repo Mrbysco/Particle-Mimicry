@@ -158,6 +158,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		this.constructCommand();
 	}
 
+	@Override
 	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
 		super.saveAdditional(tag, registries);
 		tag.putString("ParticleType", particleType);
