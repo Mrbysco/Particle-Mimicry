@@ -1,1 +1,1 @@
-* Add tooltips for each field in the Particle Emitter GUI
+* Change the Particle Emitter to store the configured interval instead of forgetting it
