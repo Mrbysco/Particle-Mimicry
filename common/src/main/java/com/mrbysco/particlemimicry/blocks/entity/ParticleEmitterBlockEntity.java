@@ -154,6 +154,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		this.delta = tag.getString("Delta");
 		this.speed = tag.getString("Speed");
 		this.count = tag.getString("Count");
+		this.interval = tag.getInt("Interval");
 		this.constructCommand();
 	}
 
@@ -165,6 +166,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		tag.putString("Delta", delta);
 		tag.putString("Speed", speed);
 		tag.putString("Count", count);
+		tag.putInt("Interval", interval);
 	}
 
 	@Override
