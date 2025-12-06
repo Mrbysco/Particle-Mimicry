@@ -7,7 +7,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 
 public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen {
-    private String oldParticleType, oldOffset, oldParameters, oldDelta, oldSpeed, oldCount, oldInterval;
+    private final String oldParticleType;
+	private String oldOffset;
+	private String oldParameters;
+	private String oldDelta;
+	private String oldSpeed;
+	private String oldCount;
+	private String oldInterval;
     private final BlockPos blockPos;
     private final ResourceLocation dimension;
 
