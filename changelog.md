@@ -1,1 +1,2 @@
-* Change the Particle Emitter to store the configured interval instead of forgetting it
+* Fix Special Parameters not functioning
+* Overhaul the Particle Emitter UI to be compacter
