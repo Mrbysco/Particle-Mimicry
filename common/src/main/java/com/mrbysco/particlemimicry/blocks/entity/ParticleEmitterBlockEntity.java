@@ -110,19 +110,20 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		StringBuilder commandBuilder = new StringBuilder("particle");
 		//Add the particle type to the command
 		commandBuilder.append(" ").append(particleType);
+		//Add the special parameters to the command if they exist
+		if (!specialParameters.isEmpty()) {
+			commandBuilder.append(specialParameters);
+		} else {
+			if (particleType.equalsIgnoreCase("block")) {
+				commandBuilder.append(BuiltInRegistries.BLOCK.getKey(getBlockState().getBlock()));
+			}
+		}
+
 		//Add the offset to the command
 		if (!offset.isEmpty()) {
 			commandBuilder.append(" ").append(offset);
 		} else {
 			commandBuilder.append(" ~ ~ ~");
-		}
-		//Add the special parameters to the command if they exist
-		if (!specialParameters.isEmpty()) {
-			commandBuilder.append(" ").append(specialParameters);
-		} else {
-			if (particleType.equalsIgnoreCase("block")) {
-				commandBuilder.append(" ").append(BuiltInRegistries.BLOCK.getKey(getBlockState().getBlock()));
-			}
 		}
 		//Add the delta to the command
 		if (!delta.isEmpty()) {
@@ -143,6 +144,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 			commandBuilder.append(" 1");
 		}
 		this.particleCommand = commandBuilder.toString();
+		Constants.LOGGER.info(this.particleCommand);
 	}
 
 	@Override
