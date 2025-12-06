@@ -11,16 +11,16 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 @Mod(Constants.MOD_ID)
 public class ParticleMimicryForge {
 
-    public ParticleMimicryForge(IEventBus eventBus) {
-        CommonClass.init();
+	public ParticleMimicryForge(IEventBus eventBus) {
+		CommonClass.init();
 
-        eventBus.addListener(this::buildContents);
-        eventBus.addListener(PacketHandler::setupPackets);
-    }
+		eventBus.addListener(this::buildContents);
+		eventBus.addListener(PacketHandler::setupPackets);
+	}
 
-    private void buildContents(final BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
-            event.accept(MimicryRegistry.PARTICLE_EMITTER.get());
-        }
-    }
+	private void buildContents(final BuildCreativeModeTabContentsEvent event) {
+		if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
+			event.accept(MimicryRegistry.PARTICLE_EMITTER.get());
+		}
+	}
 }

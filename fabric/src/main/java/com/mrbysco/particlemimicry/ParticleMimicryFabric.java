@@ -15,24 +15,24 @@ import net.minecraft.world.item.CreativeModeTabs;
 
 public class ParticleMimicryFabric implements ModInitializer {
 
-    @Override
-    public void onInitialize() {
-        CommonClass.init();
+	@Override
+	public void onInitialize() {
+		CommonClass.init();
 
-        PayloadTypeRegistry.playC2S().register(SetParticleDataPayload.ID, SetParticleDataPayload.CODEC);
-        ServerPlayNetworking.registerGlobalReceiver(SetParticleDataPayload.ID, (payload, context) -> {
-            context.player().server.execute(() -> {
-                if (context.player() instanceof ServerPlayer player) {
-                    MinecraftServer server = player.getServer();
-                    var dimensionKey = ResourceKey.create(Registries.DIMENSION, payload.dimension());
-                    ServerLevel level = server.getLevel(dimensionKey);
-                    CommonClass.handleSetParticle(level, player, payload);
-                }
-            });
-        });
+		PayloadTypeRegistry.playC2S().register(SetParticleDataPayload.ID, SetParticleDataPayload.CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(SetParticleDataPayload.ID, (payload, context) -> {
+			context.server().execute(() -> {
+				if (context.player() instanceof ServerPlayer player) {
+					MinecraftServer server = context.server();
+					var dimensionKey = ResourceKey.create(Registries.DIMENSION, payload.dimension());
+					ServerLevel level = server.getLevel(dimensionKey);
+					CommonClass.handleSetParticle(level, player, payload);
+				}
+			});
+		});
 
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.REDSTONE_BLOCKS).register(entries -> {
-            entries.accept(MimicryRegistry.PARTICLE_EMITTER.get());
-        });
-    }
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.REDSTONE_BLOCKS).register(entries -> {
+			entries.accept(MimicryRegistry.PARTICLE_EMITTER.get());
+		});
+	}
 }

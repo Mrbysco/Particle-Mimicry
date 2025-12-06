@@ -1,8 +1,5 @@
 {
   "values": [
-    {
-      "id": "particlemimicry:particle_emitter",
-      "required": false
-    }
+    "particlemimicry:particle_emitter"
   ]
 }

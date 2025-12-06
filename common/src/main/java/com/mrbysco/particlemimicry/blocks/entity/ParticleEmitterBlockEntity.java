@@ -18,11 +18,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -89,7 +93,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 				if (position != null) {
 					if (!position.closerThan(centerPos, 5)) {
 						if (player != null) {
-							player.sendSystemMessage(Component.literal("Offset is too far away from the Particle Emitter. Resetting to ~ ~1 ~").withStyle(ChatFormatting.RED));
+							player.displayClientMessage(Component.literal("Offset is too far away from the Particle Emitter. Resetting to ~ ~1 ~").withStyle(ChatFormatting.RED), false);
 						} else {
 							Constants.LOGGER.debug("Offset is too far away from the Particle Emitter. Resetting to ~ ~1 ~");
 						}
@@ -148,35 +152,39 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		super.loadAdditional(tag, registries);
-		this.particleType = tag.getString("ParticleType");
-		this.offset = tag.getString("Offset");
-		this.specialParameters = tag.getString("SpecialParameters");
-		this.delta = tag.getString("Delta");
-		this.speed = tag.getString("Speed");
-		this.count = tag.getString("Count");
-		this.interval = tag.getInt("Interval");
+	protected void loadAdditional(ValueInput input) {
+		super.loadAdditional(input);
+		this.particleType = input.getStringOr("ParticleType", "");
+		this.offset = input.getStringOr("Offset", "");
+		this.specialParameters = input.getStringOr("SpecialParameters", "");
+		this.delta = input.getStringOr("Delta", "");
+		this.speed = input.getStringOr("Speed", "");
+		this.count = input.getStringOr("Count", "");
+		this.interval = input.getIntOr("Interval", 0);
 		this.constructCommand();
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		super.saveAdditional(tag, registries);
-		tag.putString("ParticleType", particleType);
-		tag.putString("Offset", offset);
-		tag.putString("SpecialParameters", specialParameters);
-		tag.putString("Delta", delta);
-		tag.putString("Speed", speed);
-		tag.putString("Count", count);
-		tag.putInt("Interval", interval);
+	protected void saveAdditional(ValueOutput output) {
+		super.saveAdditional(output);
+		output.putString("ParticleType", particleType);
+		output.putString("Offset", offset);
+		output.putString("SpecialParameters", specialParameters);
+		output.putString("Delta", delta);
+		output.putString("Speed", speed);
+		output.putString("Count", count);
+		output.putInt("Interval", interval);
 	}
 
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider lookupProvider) {
-		CompoundTag nbt = new CompoundTag();
-		this.saveAdditional(nbt, lookupProvider);
-		return nbt;
+		CompoundTag tag = new CompoundTag();
+		try (ProblemReporter.ScopedCollector problemreporter$scopedcollector = new ProblemReporter.ScopedCollector(Constants.LOGGER)) {
+			TagValueOutput output = TagValueOutput.createWithContext(problemreporter$scopedcollector, lookupProvider);
+			this.saveAdditional(output);
+			tag.merge(output.buildResult());
+		}
+		return tag;
 	}
 
 	@Nullable

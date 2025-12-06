@@ -2,6 +2,7 @@ package com.mrbysco.particlemimicry.client.screen.widget;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 
 public class NumberEditBox extends EditBox {
@@ -13,8 +14,8 @@ public class NumberEditBox extends EditBox {
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		return super.keyPressed(keyCode, scanCode, modifiers);
+	public boolean keyPressed(KeyEvent event) {
+		return super.keyPressed(event);
 	}
 
 	@Override

@@ -10,12 +10,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class MimicryBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
-    public MimicryBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
-    }
+	public MimicryBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+		super(output, registriesFuture);
+	}
 
-    @Override
-    protected void addTags(HolderLookup.Provider provider) {
-        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).addOptional(MimicryRegistry.PARTICLE_EMITTER.getId());
-    }
+	@Override
+	protected void addTags(HolderLookup.Provider provider) {
+		this.valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE).add(MimicryRegistry.PARTICLE_EMITTER.get());
+	}
 }

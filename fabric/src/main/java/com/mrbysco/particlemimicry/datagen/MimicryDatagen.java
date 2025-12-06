@@ -10,14 +10,14 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
 public class MimicryDatagen implements DataGeneratorEntrypoint {
 
-    @Override
-    public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-        FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-        pack.addProvider(MimicryModelProvider::new);
-        pack.addProvider(MimicryLanguageProvider::new);
+	@Override
+	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
+		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
+		pack.addProvider(MimicryModelProvider::new);
+		pack.addProvider(MimicryLanguageProvider::new);
 
-        pack.addProvider(MimicryBlockTagProvider::new);
-        pack.addProvider(MimicryLootProvider::new);
-        pack.addProvider(MimicryRecipeProvider::new);
-    }
+		pack.addProvider(MimicryBlockTagProvider::new);
+		pack.addProvider(MimicryLootProvider::new);
+		pack.addProvider(MimicryRecipeProvider::new);
+	}
 }

@@ -8,16 +8,16 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class CommonClass {
 
-    public static void init() {
-        MimicryRegistry.loadClass();
-    }
+	public static void init() {
+		MimicryRegistry.loadClass();
+	}
 
-    public static void handleSetParticle(ServerLevel level, ServerPlayer player, SetParticleDataPayload payload) {
-        if (level.getBlockEntity(payload.pos()) instanceof ParticleEmitterBlockEntity blockEntity) {
-            blockEntity.setData(player, payload.particleType(), payload.offset(),
-                    payload.specialParameters(), payload.delta(), payload.speed(),
-                    payload.count(), payload.interval());
-            blockEntity.refreshClient();
-        }
-    }
+	public static void handleSetParticle(ServerLevel level, ServerPlayer player, SetParticleDataPayload payload) {
+		if (level.getBlockEntity(payload.pos()) instanceof ParticleEmitterBlockEntity blockEntity) {
+			blockEntity.setData(player, payload.particleType(), payload.offset(),
+					payload.specialParameters(), payload.delta(), payload.speed(),
+					payload.count(), payload.interval());
+			blockEntity.refreshClient();
+		}
+	}
 }

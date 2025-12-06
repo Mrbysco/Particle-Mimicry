@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "C": {
-      "tag": "minecraft:leaves"
-    },
-    "G": {
-      "tag": "c:dusts/glowstone"
-    },
-    "R": {
-      "tag": "c:dusts/redstone"
-    },
-    "V": {
-      "tag": "c:storage_blocks/lapis"
-    }
+    "C": "#minecraft:leaves",
+    "G": "#c:dusts/glowstone",
+    "R": "#c:dusts/redstone",
+    "V": "#c:storage_blocks/lapis"
   },
   "pattern": [
     "CCC",

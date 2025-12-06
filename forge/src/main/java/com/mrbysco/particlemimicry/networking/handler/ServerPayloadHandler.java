@@ -20,7 +20,7 @@ public class ServerPayloadHandler {
 	public void handleParticleData(final SetParticleDataPayload payload, final IPayloadContext context) {
 		context.enqueueWork(() -> {
 					if (context.player() instanceof ServerPlayer player) {
-						MinecraftServer server = player.getServer();
+						MinecraftServer server = context.player().level().getServer();
 						var dimensionKey = ResourceKey.create(Registries.DIMENSION, payload.dimension());
 						ServerLevel level = server.getLevel(dimensionKey);
 						CommonClass.handleSetParticle(level, player, payload);

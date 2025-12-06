@@ -1,6 +1,5 @@
 package com.mrbysco.particlemimicry.client.screen;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mrbysco.particlemimicry.client.screen.components.DeltaSuggestions;
 import com.mrbysco.particlemimicry.client.screen.components.ParticleSuggestions;
 import com.mrbysco.particlemimicry.client.screen.widget.NumberEditBox;
@@ -11,10 +10,14 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.ARGB;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix3x2fStack;
 
 public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	private static final Component SET_PARTICLE_LABEL = Component.translatable("particlemimicry.setParticle");
@@ -229,16 +232,16 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (particleTypeEdit.isFocused() && this.particleSuggestions.keyPressed(keyCode, scanCode, modifiers)) {
+	public boolean keyPressed(KeyEvent event) {
+		if (particleTypeEdit.isFocused() && this.particleSuggestions.keyPressed(event)) {
 			return true;
-		} else if (offsetEdit.isFocused() && this.offsetSuggestions.keyPressed(keyCode, scanCode, modifiers)) {
+		} else if (offsetEdit.isFocused() && this.offsetSuggestions.keyPressed(event)) {
 			return true;
-		} else if (deltaEdit.isFocused() && this.deltaSuggestions.keyPressed(keyCode, scanCode, modifiers)) {
+		} else if (deltaEdit.isFocused() && this.deltaSuggestions.keyPressed(event)) {
 			return true;
-		} else if (super.keyPressed(keyCode, scanCode, modifiers)) {
+		} else if (super.keyPressed(event)) {
 			return true;
-		} else if (keyCode != 257 && keyCode != 335) {
+		} else if (event.key() != 257 && event.key() != 335) {
 			return false;
 		} else {
 			this.onDone();
@@ -259,9 +262,9 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int delta) {
+	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
 		// The ugly setFocused calls are to stop multiple edit boxes from being focused at once
-		if (particleTypeEdit.isFocused() && this.particleSuggestions.mouseClicked(mouseX, mouseY, delta)) {
+		if (particleTypeEdit.isFocused() && this.particleSuggestions.mouseClicked(event)) {
 			offsetEdit.setFocused(false);
 			deltaEdit.setFocused(false);
 			specialParametersEdit.setFocused(false);
@@ -269,7 +272,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			countEdit.setFocused(false);
 			intervalEdit.setFocused(false);
 			return true;
-		} else if (offsetEdit.isFocused() && this.offsetSuggestions.mouseClicked(mouseX, mouseY, delta)) {
+		} else if (offsetEdit.isFocused() && this.offsetSuggestions.mouseClicked(event)) {
 			particleTypeEdit.setFocused(false);
 			deltaEdit.setFocused(false);
 			specialParametersEdit.setFocused(false);
@@ -277,7 +280,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			countEdit.setFocused(false);
 			intervalEdit.setFocused(false);
 			return true;
-		} else if (deltaEdit.isFocused() && this.deltaSuggestions.mouseClicked(mouseX, mouseY, delta)) {
+		} else if (deltaEdit.isFocused() && this.deltaSuggestions.mouseClicked(event)) {
 			particleTypeEdit.setFocused(false);
 			offsetEdit.setFocused(false);
 			specialParametersEdit.setFocused(false);
@@ -293,41 +296,41 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			speedEdit.setFocused(false);
 			countEdit.setFocused(false);
 			intervalEdit.setFocused(false);
-			return super.mouseClicked(mouseX, mouseY, delta);
+			return super.mouseClicked(event, doubleClick);
 		}
 	}
 
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
-		guiGraphics.drawCenteredString(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, 16777215);
-		guiGraphics.drawString(this.font, PARTICLE_LABEL, this.width / 2 - 151, 40, 10526880, false);
-		guiGraphics.drawString(this.font, SPECIAL_LABEL, this.width / 2 + 1, 40, 10526880, false);
+		guiGraphics.drawCenteredString(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, ARGB.opaque(16777215));
+		guiGraphics.drawString(this.font, PARTICLE_LABEL, this.width / 2 - 151, 40, ARGB.opaque(10526880), false);
+		guiGraphics.drawString(this.font, SPECIAL_LABEL, this.width / 2 + 1, 40, ARGB.opaque(10526880), false);
 
-		guiGraphics.drawString(this.font, OFFSET_LABEL, this.width / 2 - 150, 74, 10526880, false);
-		guiGraphics.drawString(this.font, DELTA_LABEL, this.width / 2 - 75, 74, 10526880, false);
+		guiGraphics.drawString(this.font, OFFSET_LABEL, this.width / 2 - 150, 74, ARGB.opaque(10526880), false);
+		guiGraphics.drawString(this.font, DELTA_LABEL, this.width / 2 - 75, 74, ARGB.opaque(10526880), false);
 
-		guiGraphics.drawString(this.font, SPEED_LABEL, this.width / 2 + 1, 74, 10526880, false);
-		guiGraphics.drawString(this.font, COUNT_LABEL, this.width / 2 + 52, 74, 10526880, false);
-		guiGraphics.drawString(this.font, INTERVAL_LABEL, this.width / 2 + 103, 74, 10526880, false);
+		guiGraphics.drawString(this.font, SPEED_LABEL, this.width / 2 + 1, 74, ARGB.opaque(10526880), false);
+		guiGraphics.drawString(this.font, COUNT_LABEL, this.width / 2 + 52, 74, ARGB.opaque(10526880), false);
+		guiGraphics.drawString(this.font, INTERVAL_LABEL, this.width / 2 + 103, 74, ARGB.opaque(10526880), false);
 
 
 		if (particleTypeEdit.isFocused())
 			this.particleSuggestions.render(guiGraphics, mouseX, mouseY);
 
-		PoseStack poseStack = guiGraphics.pose();
+		Matrix3x2fStack poseStack = guiGraphics.pose();
 		if (offsetEdit.isFocused()) {
-			poseStack.pushPose();
-			poseStack.translate(0, 30, 0);
+			poseStack.pushMatrix();
+			poseStack.translate(0, 30);
 			this.offsetSuggestions.render(guiGraphics, mouseX, mouseY);
-			poseStack.popPose();
+			poseStack.popMatrix();
 		}
 
 		if (deltaEdit.isFocused()) {
-			poseStack.pushPose();
-			poseStack.translate(0, 90, 0);
+			poseStack.pushMatrix();
+			poseStack.translate(0, 90);
 			this.deltaSuggestions.render(guiGraphics, mouseX, mouseY);
-			poseStack.popPose();
+			poseStack.popMatrix();
 		}
 	}
 }

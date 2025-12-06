@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,13 +41,13 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (level.getBlockEntity(pos) instanceof ParticleEmitterBlockEntity blockEntity) {
-			if (level.isClientSide) {
+			if (level.isClientSide()) {
 				com.mrbysco.particlemimicry.client.screen.ParticleEmitterEditScreen.openScreen(pos, level.dimension().location(),
 						blockEntity.particleType, blockEntity.offset, blockEntity.specialParameters, blockEntity.delta,
 						blockEntity.speed, blockEntity.count, String.valueOf(blockEntity.interval));
 			}
 
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.SUCCESS;
 		}
 
 		return super.useWithoutItem(state, level, pos, player, hitResult);
@@ -59,7 +60,7 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-		if (!level.isClientSide && state.getValue(POWERED)) {
+		if (!level.isClientSide() && state.getValue(POWERED)) {
 			return createTickerHelper(blockEntityType, MimicryRegistry.PARTICLE_EMITTER_ENTITY.get(), ParticleEmitterBlockEntity::serverTick);
 		}
 		return null;
@@ -74,8 +75,8 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-		if (!level.isClientSide) {
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston) {
+		if (!level.isClientSide()) {
 			boolean flag = state.getValue(POWERED);
 			if (flag != level.hasNeighborSignal(pos)) {
 				if (flag) {

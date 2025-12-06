@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id "net.neoforged.moddev" version "2.0.107"
+    id "net.neoforged.moddev" version "2.0.121"
     id 'net.darkhax.curseforgegradle'
     id 'com.modrinth.minotaur'
 }
@@ -20,10 +20,7 @@ neoForge {
         mappingsVersion = "${parchment_mapping_version}"
     }
 
-    // Automatically enable forge AccessTransformers if the file exists
-    // This location is hardcoded in Forge and can not be changed.
-    // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-    // Forge still uses SRG names during compile time, so we cannot use the common AT's
+    // Automatically enable neoforge AccessTransformers if the file exists
     def at = file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
@@ -51,7 +48,7 @@ neoForge {
             programArgument '--nogui'
         }
         data {
-            data()
+            clientData()
             programArguments.addAll(
                     '--mod', "${mod_id}",
                     '--all',
@@ -145,9 +142,5 @@ if (System.getenv().MODRINTH_KEY) {
         changelog = file("$project.rootDir/changelog.md").text
         gameVersions = ["${minecraft_version}"]
         loaders = ["neoforge"]
-
-        dependencies {
-
-        }
     }
 }
