@@ -1,2 +1,1 @@
-* Fix Special Parameters not functioning
-* Overhaul the Particle Emitter UI to be compacter
+* Initial update to 1.21.10
