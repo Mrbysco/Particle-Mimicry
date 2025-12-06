@@ -14,10 +14,19 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	private static final Component SET_PARTICLE_LABEL = Component.translatable("particlemimicry.setParticle");
-	private static final Component COMMAND_LABEL = Component.translatable("particlemimicry.particle");
+
+	private static final Component PARTICLE_LABEL = Component.translatable("particlemimicry.particle");
+	private static final Component SPECIAL_LABEL = Component.translatable("particlemimicry.specialParameters");
+	private static final Component OFFSET_LABEL = Component.translatable("particlemimicry.offset");
+	private static final Component DELTA_LABEL = Component.translatable("particlemimicry.delta");
+	private static final Component SPEED_LABEL = Component.translatable("particlemimicry.speed");
+	private static final Component COUNT_LABEL = Component.translatable("particlemimicry.count");
+	private static final Component INTERVAL_LABEL = Component.translatable("particlemimicry.interval");
+
 	protected EditBox particleTypeEdit;
 	protected EditBox offsetEdit;
 	protected EditBox specialParametersEdit;
@@ -53,8 +62,11 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			this.onClose();
 		}).bounds(this.width / 2 + 4, this.height / 4 + 120 + 12, 150, 20).build());
 
-		this.particleTypeEdit = new EditBox(this.font, this.width / 2 - 150, 50, 300, 20,
+		// Particle Type
+		this.particleTypeEdit = new EditBox(this.font, this.width / 2 - 151, 50, 150, 20,
 				Component.literal(typeSuggestion)) {
+			@Override
+			@NotNull
 			protected MutableComponent createNarrationMessage() {
 				return super.createNarrationMessage().append(AbstractParticleEmitterEditScreen.this.particleSuggestions.getNarrationMessage());
 			}
@@ -62,15 +74,25 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.particleTypeEdit.setMaxLength(100);
 		this.particleTypeEdit.setResponder(this::onEdited);
 		this.particleTypeEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.particle.tooltip")));
-		this.addWidget(this.particleTypeEdit);
+		this.addRenderableWidget(this.particleTypeEdit);
 		this.setInitialFocus(this.particleTypeEdit);
 		this.particleTypeEdit.setFocused(true);
 		this.particleSuggestions = new ParticleSuggestions(this.minecraft, this, this.particleTypeEdit, this.font);
 		this.particleSuggestions.setAllowSuggestions(true);
 		this.particleSuggestions.updateCommandInfo();
 
-		this.offsetEdit = new EditBox(this.font, this.width / 2 - 150, 80, 300, 20,
+		// Special Parameters
+		this.specialParametersEdit = new EditBox(this.font, this.width / 2 + 1, 50, 150, 20,
+				Component.literal(specialSuggestion));
+		this.specialParametersEdit.setMaxLength(200);
+		this.specialParametersEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.specialParameters.tooltip")));
+		this.addRenderableWidget(this.specialParametersEdit);
+
+		// Offset
+		this.offsetEdit = new EditBox(this.font, this.width / 2 - 151, 84, 74, 20,
 				Component.literal(offsetSuggestion)) {
+			@Override
+			@NotNull
 			protected MutableComponent createNarrationMessage() {
 				return super.createNarrationMessage().append(AbstractParticleEmitterEditScreen.this.offsetSuggestions.getNarrationMessage());
 			}
@@ -79,19 +101,16 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.offsetEdit.setMaxLength(30);
 		this.offsetEdit.setResponder(this::onOffsetEdited);
 		this.offsetEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.offset.tooltip")));
-		this.addWidget(this.offsetEdit);
+		this.addRenderableWidget(this.offsetEdit);
 		this.offsetSuggestions = new DeltaSuggestions(this.minecraft, this, this.offsetEdit, this.font, true);
 		this.offsetSuggestions.setAllowSuggestions(true);
 		this.offsetSuggestions.updateCommandInfo();
 
-		this.specialParametersEdit = new EditBox(this.font, this.width / 2 - 150, 110, 300, 20,
-				Component.literal(specialSuggestion));
-		this.specialParametersEdit.setMaxLength(200);
-		this.specialParametersEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.specialParameters.tooltip")));
-		this.addWidget(this.specialParametersEdit);
-
-		this.deltaEdit = new EditBox(this.font, this.width / 2 - 150, 140, 300, 20,
+		// Delta
+		this.deltaEdit = new EditBox(this.font, this.width / 2 - 75, 84, 74, 20,
 				Component.literal(deltaSuggestion)) {
+			@Override
+			@NotNull
 			protected MutableComponent createNarrationMessage() {
 				return super.createNarrationMessage().append(AbstractParticleEmitterEditScreen.this.deltaSuggestions.getNarrationMessage());
 			}
@@ -99,35 +118,38 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.deltaEdit.setValue("0 0 0");
 		this.deltaEdit.setMaxLength(30);
 		this.deltaEdit.setResponder(this::onDeltaEdited);
-		this.addWidget(this.deltaEdit);
+		this.addRenderableWidget(this.deltaEdit);
 		this.deltaSuggestions = new DeltaSuggestions(this.minecraft, this, this.deltaEdit, this.font, false);
 		this.deltaSuggestions.setAllowSuggestions(true);
 		this.deltaSuggestions.updateCommandInfo();
 		this.deltaEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.delta.tooltip")));
 
-		this.speedEdit = new NumberEditBox(this.font, this.width / 2 - 150, 170, 90, 20,
+		// Speed
+		this.speedEdit = new NumberEditBox(this.font, this.width / 2 + 1, 84, 48, 20,
 				Component.translatable("particlemimicry.speed"), 4) {
 		};
 		this.speedEdit.setMaxLength(5);
 		this.speedEdit.setValue("0");
 		this.speedEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.speed.tooltip")));
-		this.addWidget(this.speedEdit);
+		this.addRenderableWidget(this.speedEdit);
 
-		this.countEdit = new NumberEditBox(this.font, this.width / 2 - 45, 170, 90, 20,
+		// Speed
+		this.countEdit = new NumberEditBox(this.font, this.width / 2 + 52, 84, 48, 20,
 				Component.translatable("particlemimicry.count"), 0) {
 		};
 		this.countEdit.setMaxLength(5);
 		this.countEdit.setValue("0");
 		this.countEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.count.tooltip")));
-		this.addWidget(this.countEdit);
+		this.addRenderableWidget(this.countEdit);
 
-		this.intervalEdit = new NumberEditBox(this.font, this.width / 2 + 60, 170, 90, 20,
+		// Interval
+		this.intervalEdit = new NumberEditBox(this.font, this.width / 2 + 103, 84, 48, 20,
 				Component.translatable("particlemimicry.interval"), 0) {
 		};
 		this.intervalEdit.setMaxLength(5);
 		this.intervalEdit.setValue("20");
 		this.intervalEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.interval.tooltip")));
-		this.addWidget(this.intervalEdit);
+		this.addRenderableWidget(this.intervalEdit);
 	}
 
 	@Override
@@ -279,14 +301,16 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		guiGraphics.drawCenteredString(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, 16777215);
-		guiGraphics.drawString(this.font, COMMAND_LABEL, this.width / 2 - 150, 40, 10526880, false);
-		this.particleTypeEdit.render(guiGraphics, mouseX, mouseY, partialTick);
-		this.offsetEdit.render(guiGraphics, mouseX, mouseY, partialTick);
-		this.specialParametersEdit.render(guiGraphics, mouseX, mouseY, partialTick);
-		this.deltaEdit.render(guiGraphics, mouseX, mouseY, partialTick);
-		this.speedEdit.render(guiGraphics, mouseX, mouseY, partialTick);
-		this.countEdit.render(guiGraphics, mouseX, mouseY, partialTick);
-		this.intervalEdit.render(guiGraphics, mouseX, mouseY, partialTick);
+		guiGraphics.drawString(this.font, PARTICLE_LABEL, this.width / 2 - 151, 40, 10526880, false);
+		guiGraphics.drawString(this.font, SPECIAL_LABEL, this.width / 2 + 1, 40, 10526880, false);
+
+		guiGraphics.drawString(this.font, OFFSET_LABEL, this.width / 2 - 150, 74, 10526880, false);
+		guiGraphics.drawString(this.font, DELTA_LABEL, this.width / 2 - 75, 74, 10526880, false);
+
+		guiGraphics.drawString(this.font, SPEED_LABEL, this.width / 2 + 1, 74, 10526880, false);
+		guiGraphics.drawString(this.font, COUNT_LABEL, this.width / 2 + 52, 74, 10526880, false);
+		guiGraphics.drawString(this.font, INTERVAL_LABEL, this.width / 2 + 103, 74, 10526880, false);
+
 
 		if (particleTypeEdit.isFocused())
 			this.particleSuggestions.render(guiGraphics, mouseX, mouseY);
