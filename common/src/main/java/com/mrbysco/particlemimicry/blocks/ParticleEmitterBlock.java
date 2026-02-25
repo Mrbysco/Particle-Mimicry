@@ -42,7 +42,7 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (level.getBlockEntity(pos) instanceof ParticleEmitterBlockEntity blockEntity) {
 			if (level.isClientSide()) {
-				com.mrbysco.particlemimicry.client.screen.ParticleEmitterEditScreen.openScreen(pos, level.dimension().location(),
+				com.mrbysco.particlemimicry.client.screen.ParticleEmitterEditScreen.openScreen(pos, level.dimension().identifier(),
 						blockEntity.particleType, blockEntity.offset, blockEntity.specialParameters, blockEntity.delta,
 						blockEntity.speed, blockEntity.count, String.valueOf(blockEntity.interval));
 			}

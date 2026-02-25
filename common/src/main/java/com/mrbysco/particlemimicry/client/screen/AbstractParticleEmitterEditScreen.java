@@ -4,7 +4,6 @@ import com.mrbysco.particlemimicry.client.screen.components.DeltaSuggestions;
 import com.mrbysco.particlemimicry.client.screen.components.ParticleSuggestions;
 import com.mrbysco.particlemimicry.client.screen.widget.NumberEditBox;
 import net.minecraft.client.GameNarrator;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -191,8 +190,8 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	@Override
-	public void resize(Minecraft mc, int width, int height) {
-		this.init(mc, width, height);
+	public void resize(int width, int height) {
+		this.init(width, height);
 		this.particleTypeEdit.setValue(this.particleTypeEdit.getValue());
 		this.particleSuggestions.updateCommandInfo();
 		this.offsetEdit.setValue(this.offsetEdit.getValue());
