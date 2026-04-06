@@ -4,7 +4,7 @@ import com.mrbysco.particlemimicry.client.screen.components.DeltaSuggestions;
 import com.mrbysco.particlemimicry.client.screen.components.ParticleSuggestions;
 import com.mrbysco.particlemimicry.client.screen.widget.NumberEditBox;
 import net.minecraft.client.GameNarrator;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
@@ -300,35 +300,36 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		super.render(guiGraphics, mouseX, mouseY, partialTick);
-		guiGraphics.drawCenteredString(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, ARGB.opaque(16777215));
-		guiGraphics.drawString(this.font, PARTICLE_LABEL, this.width / 2 - 151, 40, ARGB.opaque(10526880), false);
-		guiGraphics.drawString(this.font, SPECIAL_LABEL, this.width / 2 + 1, 40, ARGB.opaque(10526880), false);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+		super.extractRenderState(graphics, mouseX, mouseY, partialTicks);
 
-		guiGraphics.drawString(this.font, OFFSET_LABEL, this.width / 2 - 150, 74, ARGB.opaque(10526880), false);
-		guiGraphics.drawString(this.font, DELTA_LABEL, this.width / 2 - 75, 74, ARGB.opaque(10526880), false);
+		graphics.centeredText(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, ARGB.opaque(16777215));
+		graphics.text(this.font, PARTICLE_LABEL, this.width / 2 - 151, 40, ARGB.opaque(10526880), false);
+		graphics.text(this.font, SPECIAL_LABEL, this.width / 2 + 1, 40, ARGB.opaque(10526880), false);
 
-		guiGraphics.drawString(this.font, SPEED_LABEL, this.width / 2 + 1, 74, ARGB.opaque(10526880), false);
-		guiGraphics.drawString(this.font, COUNT_LABEL, this.width / 2 + 52, 74, ARGB.opaque(10526880), false);
-		guiGraphics.drawString(this.font, INTERVAL_LABEL, this.width / 2 + 103, 74, ARGB.opaque(10526880), false);
+		graphics.text(this.font, OFFSET_LABEL, this.width / 2 - 150, 74, ARGB.opaque(10526880), false);
+		graphics.text(this.font, DELTA_LABEL, this.width / 2 - 75, 74, ARGB.opaque(10526880), false);
+
+		graphics.text(this.font, SPEED_LABEL, this.width / 2 + 1, 74, ARGB.opaque(10526880), false);
+		graphics.text(this.font, COUNT_LABEL, this.width / 2 + 52, 74, ARGB.opaque(10526880), false);
+		graphics.text(this.font, INTERVAL_LABEL, this.width / 2 + 103, 74, ARGB.opaque(10526880), false);
 
 
 		if (particleTypeEdit.isFocused())
-			this.particleSuggestions.render(guiGraphics, mouseX, mouseY);
+			this.particleSuggestions.extractRenderState(graphics, mouseX, mouseY);
 
-		Matrix3x2fStack poseStack = guiGraphics.pose();
+		Matrix3x2fStack poseStack = graphics.pose();
 		if (offsetEdit.isFocused()) {
 			poseStack.pushMatrix();
 			poseStack.translate(0, 30);
-			this.offsetSuggestions.render(guiGraphics, mouseX, mouseY);
+			this.offsetSuggestions.extractRenderState(graphics, mouseX, mouseY);
 			poseStack.popMatrix();
 		}
 
 		if (deltaEdit.isFocused()) {
 			poseStack.pushMatrix();
 			poseStack.translate(0, 90);
-			this.deltaSuggestions.render(guiGraphics, mouseX, mouseY);
+			this.deltaSuggestions.extractRenderState(graphics, mouseX, mouseY);
 			poseStack.popMatrix();
 		}
 	}

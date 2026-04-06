@@ -3,7 +3,7 @@ package com.mrbysco.particlemimicry;
 import com.mrbysco.particlemimicry.networking.SetParticleDataPayload;
 import com.mrbysco.particlemimicry.registration.MimicryRegistry;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.registries.Registries;
@@ -19,7 +19,7 @@ public class ParticleMimicryFabric implements ModInitializer {
 	public void onInitialize() {
 		CommonClass.init();
 
-		PayloadTypeRegistry.playC2S().register(SetParticleDataPayload.ID, SetParticleDataPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(SetParticleDataPayload.ID, SetParticleDataPayload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(SetParticleDataPayload.ID, (payload, context) -> {
 			context.server().execute(() -> {
 				if (context.player() instanceof ServerPlayer player) {
@@ -31,7 +31,7 @@ public class ParticleMimicryFabric implements ModInitializer {
 			});
 		});
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.REDSTONE_BLOCKS).register(entries -> {
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.REDSTONE_BLOCKS).register(entries -> {
 			entries.accept(MimicryRegistry.PARTICLE_EMITTER.get());
 		});
 	}

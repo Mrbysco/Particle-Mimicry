@@ -2,13 +2,13 @@ package com.mrbysco.particlemimicry.datagen.assets;
 
 import com.mrbysco.particlemimicry.registration.MimicryRegistry;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 
 public class MimicryModelProvider extends FabricModelProvider {
 
-	public MimicryModelProvider(FabricDataOutput output) {
+	public MimicryModelProvider(FabricPackOutput output) {
 		super(output);
 	}
 

@@ -93,7 +93,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 				if (position != null) {
 					if (!position.closerThan(centerPos, 5)) {
 						if (player != null) {
-							player.displayClientMessage(Component.literal("Offset is too far away from the Particle Emitter. Resetting to ~ ~1 ~").withStyle(ChatFormatting.RED), false);
+							player.sendSystemMessage(Component.literal("Offset is too far away from the Particle Emitter. Resetting to ~ ~1 ~").withStyle(ChatFormatting.RED));
 						} else {
 							Constants.LOGGER.debug("Offset is too far away from the Particle Emitter. Resetting to ~ ~1 ~");
 						}

@@ -1,4 +1,4 @@
-accessWidener   v1      named
+accessWidener   v1      official
 accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
 accessible field net/minecraft/client/gui/components/EditBox suggestion Ljava/lang/String;
 accessible method net/minecraft/client/gui/components/CommandSuggestions$SuggestionsList <init> (Lnet/minecraft/client/gui/components/CommandSuggestions;IIILjava/util/List;Z)V
