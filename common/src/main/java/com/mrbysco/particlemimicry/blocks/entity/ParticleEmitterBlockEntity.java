@@ -148,7 +148,6 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 			commandBuilder.append(" 1");
 		}
 		this.particleCommand = commandBuilder.toString();
-		Constants.LOGGER.info(this.particleCommand);
 	}
 
 	@Override
