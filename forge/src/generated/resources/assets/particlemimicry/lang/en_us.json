@@ -1,5 +1,7 @@
 {
   "block.particlemimicry.particle_emitter": "Particle Emitter",
+  "particlemimicry.copy": "Copy",
+  "particlemimicry.copy.tooltip": "Copy the data of the particle emitter you're looking at",
   "particlemimicry.count": "Count",
   "particlemimicry.count.tooltip": "The number of particles to spawn each time",
   "particlemimicry.delta": "Delta",
@@ -11,6 +13,8 @@
   "particlemimicry.offset.tooltip": "The offset of the particle from the emitter's position",
   "particlemimicry.particle": "Particle Type",
   "particlemimicry.particle.tooltip": "The ID of the particle",
+  "particlemimicry.paste": "Paste",
+  "particlemimicry.paste.tooltip": "Paste the copied data to the particle emitter you're looking at",
   "particlemimicry.setParticle": "Set Particle Type",
   "particlemimicry.specialParameters": "Special Parameters",
   "particlemimicry.specialParameters.tooltip": "Special parameters for the particle, such as color or size",
