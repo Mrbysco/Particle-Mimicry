@@ -30,6 +30,11 @@ public class MimicryLanguageProvider extends LanguageProvider {
 		add("particlemimicry.interval", "Interval");
 		add("particlemimicry.interval.tooltip", "The interval between particle spawns");
 
+		add("particlemimicry.copy", "Copy");
+		add("particlemimicry.copy.tooltip", "Copy the data of the particle emitter you're looking at");
+		add("particlemimicry.paste", "Paste");
+		add("particlemimicry.paste.tooltip", "Paste the copied data to the particle emitter you're looking at");
+
 		add("particlemimicry.networking.set_particle_data.failed", "Failed to set Particle Emitter data %s");
 	}
 }

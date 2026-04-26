@@ -32,6 +32,11 @@ public class MimicryLanguageProvider extends FabricLanguageProvider {
 		translationBuilder.add("particlemimicry.interval", "Interval");
 		translationBuilder.add("particlemimicry.interval.tooltip", "The interval between particle spawns");
 
+		translationBuilder.add("particlemimicry.copy", "Copy");
+		translationBuilder.add("particlemimicry.copy.tooltip", "Copy the data of the particle emitter you're looking at");
+		translationBuilder.add("particlemimicry.paste", "Paste");
+		translationBuilder.add("particlemimicry.paste.tooltip", "Paste the copied data to the particle emitter you're looking at");
+
 		translationBuilder.add("particlemimicry.networking.set_particle_data.failed", "Failed to set Particle Emitter data %s");
 	}
 }
