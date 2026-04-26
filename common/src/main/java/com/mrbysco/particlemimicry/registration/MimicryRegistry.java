@@ -22,7 +22,7 @@ public class MimicryRegistry {
 	public static final RegistrationProvider<BlockEntityType<?>> BLOCK_ENTITIES = RegistrationProvider.get(BuiltInRegistries.BLOCK_ENTITY_TYPE, Constants.MOD_ID);
 
 	public static final RegistryObject<ParticleEmitterBlock> PARTICLE_EMITTER = BLOCKS.register("particle_emitter", () -> new ParticleEmitterBlock(Block.Properties.of().setId(getBlockKey("particle_emitter")).mapColor(MapColor.TERRACOTTA_BLUE).strength(0.8F).sound(SoundType.METAL).noOcclusion()));
-	public static final RegistryObject<BlockItem> PARTICLE_EMITTER_ITEM = ITEMS.register("particle_emitter", () -> new BlockItem(PARTICLE_EMITTER.get(), new Item.Properties().setId(getItemKey("particle_emitter"))));
+	public static final RegistryObject<BlockItem> PARTICLE_EMITTER_ITEM = ITEMS.register("particle_emitter", () -> new BlockItem(PARTICLE_EMITTER.get(), new Item.Properties().useBlockDescriptionPrefix().setId(getItemKey("particle_emitter"))));
 
 	public static final RegistryObject<BlockEntityType<ParticleEmitterBlockEntity>> PARTICLE_EMITTER_ENTITY = BLOCK_ENTITIES.register("particle_emitter",
 			Services.PLATFORM::createBlockEntityType);
