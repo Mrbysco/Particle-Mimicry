@@ -11,6 +11,8 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -56,13 +58,6 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 
 	@Override
 	protected void init() {
-		this.addRenderableWidget(this.doneButton = Button.builder(CommonComponents.GUI_DONE, (button) -> {
-			this.onDone();
-		}).bounds(this.width / 2 - 4 - 150, this.height / 4 + 120 + 12, 150, 20).build());
-
-		this.addRenderableWidget(this.cancelButton = Button.builder(CommonComponents.GUI_CANCEL, (button) -> {
-			this.onClose();
-		}).bounds(this.width / 2 + 4, this.height / 4 + 120 + 12, 150, 20).build());
 
 		// Particle Type
 		this.particleTypeEdit = new EditBox(this.font, this.width / 2 - 151, 50, 150, 20,
@@ -78,7 +73,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.particleTypeEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.particle.tooltip")));
 		this.addRenderableWidget(this.particleTypeEdit);
 		this.setInitialFocus(this.particleTypeEdit);
-		this.particleTypeEdit.setFocused(true);
+		this.particleTypeEdit.setFocused(false);
 		this.particleSuggestions = new ParticleSuggestions(this.minecraft, this, this.particleTypeEdit, this.font);
 		this.particleSuggestions.setAllowSuggestions(true);
 		this.particleSuggestions.updateCommandInfo();
@@ -152,6 +147,44 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.intervalEdit.setValue("20");
 		this.intervalEdit.setTooltip(Tooltip.create(Component.translatable("particlemimicry.interval.tooltip")));
 		this.addRenderableWidget(this.intervalEdit);
+
+		// Position it above the done and cancel buttons
+		int offsetX = this.width / 2 - 151;
+		int offsetY = this.height / 4 + 134;
+
+		this.addRenderableWidget(Button.builder(Component.translatable("particlemimicry.copy"), (button) -> {
+			CompoundTag compound = this.writeToTag();
+			String clipboardData = compound.toString();
+			if (this.minecraft != null) {
+				this.minecraft.keyboardHandler.setClipboard(clipboardData);
+			}
+		}).bounds(offsetX, offsetY, 72, 20).tooltip(Tooltip.create(Component.translatable("particlemimicry.copy.tooltip"))).build());
+		offsetX += 78;
+
+		this.addRenderableWidget(Button.builder(Component.translatable("particlemimicry.paste"), (button) -> {
+			try {
+				String clipboardData = null;
+				if (this.minecraft != null) {
+					clipboardData = this.minecraft.keyboardHandler.getClipboard();
+				}
+				if (clipboardData != null) {
+					CompoundTag compound = TagParser.parseCompoundFully(clipboardData);
+					this.readFromTag(compound);
+				}
+			} catch (Exception e) {
+				//Nope
+			}
+		}).bounds(offsetX, offsetY, 72, 20).tooltip(Tooltip.create(Component.translatable("particlemimicry.paste.tooltip"))).build());
+		offsetX += 74;
+
+		this.addRenderableWidget(this.doneButton = Button.builder(CommonComponents.GUI_DONE, (button) -> {
+			this.onDone();
+		}).bounds(offsetX, offsetY, 72, 20).build());
+		offsetX += 78;
+
+		this.addRenderableWidget(this.cancelButton = Button.builder(CommonComponents.GUI_CANCEL, (button) -> {
+			this.onClose();
+		}).bounds(offsetX, offsetY, 72, 20).build());
 	}
 
 	@Override
@@ -262,6 +295,10 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 
 	@Override
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+		if (super.mouseClicked(event, doubleClick)) {
+			return true;
+		}
+
 		// The ugly setFocused calls are to stop multiple edit boxes from being focused at once
 		if (particleTypeEdit.isFocused() && this.particleSuggestions.mouseClicked(event)) {
 			offsetEdit.setFocused(false);
@@ -295,7 +332,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			speedEdit.setFocused(false);
 			countEdit.setFocused(false);
 			intervalEdit.setFocused(false);
-			return super.mouseClicked(event, doubleClick);
+			return false;
 		}
 	}
 
@@ -303,15 +340,15 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		guiGraphics.drawCenteredString(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, ARGB.opaque(16777215));
-		guiGraphics.drawString(this.font, PARTICLE_LABEL, this.width / 2 - 151, 40, ARGB.opaque(10526880), false);
-		guiGraphics.drawString(this.font, SPECIAL_LABEL, this.width / 2 + 1, 40, ARGB.opaque(10526880), false);
+		guiGraphics.drawString(this.font, PARTICLE_LABEL, this.width / 2 - 151, 40, ARGB.opaque(16777215));
+		guiGraphics.drawString(this.font, SPECIAL_LABEL, this.width / 2 + 1, 40, ARGB.opaque(16777215));
 
-		guiGraphics.drawString(this.font, OFFSET_LABEL, this.width / 2 - 150, 74, ARGB.opaque(10526880), false);
-		guiGraphics.drawString(this.font, DELTA_LABEL, this.width / 2 - 75, 74, ARGB.opaque(10526880), false);
+		guiGraphics.drawString(this.font, OFFSET_LABEL, this.width / 2 - 150, 74, ARGB.opaque(16777215));
+		guiGraphics.drawString(this.font, DELTA_LABEL, this.width / 2 - 75, 74, ARGB.opaque(16777215));
 
-		guiGraphics.drawString(this.font, SPEED_LABEL, this.width / 2 + 1, 74, ARGB.opaque(10526880), false);
-		guiGraphics.drawString(this.font, COUNT_LABEL, this.width / 2 + 52, 74, ARGB.opaque(10526880), false);
-		guiGraphics.drawString(this.font, INTERVAL_LABEL, this.width / 2 + 103, 74, ARGB.opaque(10526880), false);
+		guiGraphics.drawString(this.font, SPEED_LABEL, this.width / 2 + 1, 74, ARGB.opaque(16777215));
+		guiGraphics.drawString(this.font, COUNT_LABEL, this.width / 2 + 52, 74, ARGB.opaque(16777215));
+		guiGraphics.drawString(this.font, INTERVAL_LABEL, this.width / 2 + 103, 74, ARGB.opaque(16777215));
 
 
 		if (particleTypeEdit.isFocused())
@@ -331,5 +368,29 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 			this.deltaSuggestions.render(guiGraphics, mouseX, mouseY);
 			poseStack.popMatrix();
 		}
+	}
+
+	protected CompoundTag writeToTag() {
+		CompoundTag compound = new CompoundTag();
+
+		compound.putString("ParticleType", this.particleTypeEdit.getValue());
+		compound.putString("SpecialParameters", this.specialParametersEdit.getValue());
+		compound.putString("Offset", this.offsetEdit.getValue());
+		compound.putString("Delta", this.deltaEdit.getValue());
+		compound.putString("Speed", this.speedEdit.getValue());
+		compound.putString("Count", this.countEdit.getValue());
+		compound.putString("Interval", this.intervalEdit.getValue());
+
+		return compound;
+	}
+
+	protected void readFromTag(CompoundTag compound) {
+		this.particleTypeEdit.setValue(compound.getStringOr("ParticleType", ""));
+		this.specialParametersEdit.setValue(compound.getStringOr("SpecialParameters", ""));
+		this.offsetEdit.setValue(compound.getStringOr("Offset", ""));
+		this.deltaEdit.setValue(compound.getStringOr("Delta", ""));
+		this.speedEdit.setValue(compound.getStringOr("Speed", ""));
+		this.countEdit.setValue(compound.getStringOr("Count", ""));
+		this.intervalEdit.setValue(compound.getStringOr("Interval", ""));
 	}
 }
